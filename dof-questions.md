@@ -24,6 +24,12 @@ Similarly the background looks like this:
 And the background weights:
 ![](https://github.com/greje656/Questions/blob/master/images/background-weights.jpg)
 
+The normalized alpha value I get looks like alpha:
+![](https://github.com/greje656/Questions/blob/master/images/alpha.jpg)
+
+And finally lerp(background/background.a, foreground/foreground.a, alpha):
+![](https://github.com/greje656/Questions/blob/master/images/results.jpg)
+
 Question 2)
 Should the maxCoCMinDepth tiles be sampled using a linear interpolation? Or point sampling? Intuitively it feels like it should be point sampling but I see artifacts at the edges of the tiles if I do. Note that with tiles of 20x20 pixels I'm making the assumption that the maximum kernel size allowed should be 10x10px. Maybe that is a false assumption.
 
