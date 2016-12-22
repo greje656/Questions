@@ -13,3 +13,12 @@ Is this really the raw results of what the foreground layer should look like? Or
 
 The results I seem to get for the foreground layer is more like:
 ![](https://github.com/greje656/Questions/blob/master/images/foreground.jpg)
+
+The weight of the samples:
+![](https://github.com/greje656/Questions/blob/master/images/foreground-weights.jpg)
+
+Similarly the background looks like:
+![](https://github.com/greje656/Questions/blob/master/images/background.jpg)
+
+And weights:
+![](https://github.com/greje656/Questions/blob/master/images/background-weights.jpg)
