@@ -46,7 +46,6 @@ It's probably that we DO need to use a signed circle of confusions but I just wa
 
 ####Code used to generate images
 	#define NUM_SAMPLES 5
-	#define NUM_BLADES 50
 	#define COC_SIZE_IN_PIXELS 10
 	#define BACKGROUND_RANGE 2.5
 
