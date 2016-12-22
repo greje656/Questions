@@ -26,8 +26,6 @@ And weights:
 Question 2)
 Should the maxCoCMinDepth tiles be sampled using a linear interpolation? Or point sampling? Intuitively it feels like it should be point sampling but I see artifacts at the edges of the tiles if I do. Note that with tiles of 20x20 pixels I'm making the assumption that the maximum kernel size allowed should be 10x10px. Maybe that is a false assumption.
 
-Point:
-![](https://github.com/greje656/Questions/blob/master/images/tile-min-depth-point.jpg)
+Point: ![](https://github.com/greje656/Questions/blob/master/images/tile-min-depth-point.jpg)
 
-Linear (currently what I'm using):
-![](https://github.com/greje656/Questions/blob/master/images/tile-min-depth-linear.jpg)
+Linear (currently what I'm using): ![](https://github.com/greje656/Questions/blob/master/images/tile-min-depth-linear.jpg)
