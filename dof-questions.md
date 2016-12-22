@@ -1,5 +1,3 @@
-Jorge Jimenez
-
 Hi Jorge,
 
 First of all, I'm a huge fan! I wanted to get that out of the way :P Huge huge fan of all the filtering work you've done in the last few years (aa, ssss, dof/motion blur)
