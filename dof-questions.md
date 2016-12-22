@@ -9,4 +9,7 @@ I've recently been trying to implement the Depth of Field solution you presented
 Question 1)
 Is this really the raw results of what the foreground layer should look like? Or is this some kind of visualization mode of the foreground weights combined with the foreground result?
 
-[image]: https://github.com/greje656/Questions/blob/master/images/foreground-original.png "Image"
+![](https://github.com/greje656/Questions/blob/master/images/foreground-original.png)
+
+The results I seem to get for the foreground layer is more like:
+![](https://github.com/greje656/Questions/blob/master/images/foreground.jpg)
