@@ -13,14 +13,15 @@ Is this really the raw results of what the foreground layer should look like? Or
 
 The results I seem to get for the foreground layer is more like (note this is using a "background range" of 2.5m so ~100in):
 ![](https://github.com/greje656/Questions/blob/master/images/foreground.jpg)
+Notice how I don't get any samples pixels whose weight is low (i.e. no black pixels like you're result)
 
-The weight of the samples:
+In fact, the weight of the samples looks like this:
 ![](https://github.com/greje656/Questions/blob/master/images/foreground-weights.jpg)
 
-Similarly the background looks like:
+Similarly the background looks like this:
 ![](https://github.com/greje656/Questions/blob/master/images/background.jpg)
 
-And weights:
+And the background weights:
 ![](https://github.com/greje656/Questions/blob/master/images/background-weights.jpg)
 
 Question 2)
@@ -35,4 +36,4 @@ Linear (currently what I'm using):
 Questions 3)
 Finally (this one might be really dumb!). Does this need to differentiate samples that are behind and infront of the focus point of the camera? i.e. does this need signed CoCs? It I think it does but that's not something that's 100% clear to me. Currently I've implemented a solution that uses abs(coc), but this doesn't work for focused objects on top of unfocused:
 ![](https://github.com/greje656/Questions/blob/master/images/results-bad.jpg)
-It's probably that we DO need to use signed circle of confusions but I just wanted to confirm that I'm not missing something obvious here (I'm sure I am)
+It's probably that we DO need to use a signed circle of confusions but I just wanted to confirm that I'm not missing something obvious here (I'm sure I am)
