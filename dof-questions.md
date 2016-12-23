@@ -32,7 +32,7 @@ foreground.rgb/SAMPLE_COUNT:
 ![](https://github.com/greje656/Questions/blob/master/images/foreground2.jpg)
 
 background.rgb/SAMPLE_COUNT:
-![](https://github.com/greje656/Questions/blob/master/images/foreground2.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/background2.jpg)
 
 ####Question 2)
 Should the maxCoCMinDepth tiles be sampled using linear interpolation? Or point sampling? Intuitively it feels like it should be point sampling but I see artifacts at the edges of the tiles if I do. Note that with tiles of 20x20 pixels I'm making the assumption that the maximum kernel size allowed should be 10x10px. Maybe that is a false assumption?
