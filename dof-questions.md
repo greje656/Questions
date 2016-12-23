@@ -3,24 +3,36 @@ Is this really the raw results of what the foreground layer should look like? Or
 
 ![](https://github.com/greje656/Questions/blob/master/images/foreground-original.png)
 
-The results I seem to get for the foreground layer is more like (note this is using a "background range" of 2.5m so ~100in):
+The results I seem to get for the foreground layer is more like (note this is using a "background range" of 2.5m so ~100in).
+
+foreground.rgb/foreground.a:
 ![](https://github.com/greje656/Questions/blob/master/images/foreground.jpg)
-Notice how I don't get any samples pixels whose weight is low? I'm wondering if I miss-understood something crucial here (i.e. no black pixels like you're result)
+Notice how I don't get any samples pixels whose weight is low? I'm wondering if I miss-understood something crucial here (i.e. no black pixels like you're result). 
 
 The weight of the samples looks like this:
 ![](https://github.com/greje656/Questions/blob/master/images/foreground-weights.jpg)
 
 Similarly the background looks like this:
+
+background.rgb/background.a
 ![](https://github.com/greje656/Questions/blob/master/images/background.jpg)
 
 And the background weights:
 ![](https://github.com/greje656/Questions/blob/master/images/background-weights.jpg)
 
-The normalized alpha value I get looks like alpha:
+The normalized alpha value I get looks like:
 ![](https://github.com/greje656/Questions/blob/master/images/alpha.jpg)
 
 And finally "lerp(background/background.a, foreground/foreground.a, alpha)":
 ![](https://github.com/greje656/Questions/blob/master/images/results.jpg)
+
+I'm wondering maybe the foreground/background layers should be weighted like this?
+
+foreground.rgb/SAMPLE_COUNT:
+![](https://github.com/greje656/Questions/blob/master/images/foreground2.jpg)
+
+background.rgb/SAMPLE_COUNT:
+![](https://github.com/greje656/Questions/blob/master/images/foreground2.jpg)
 
 ####Question 2)
 Should the maxCoCMinDepth tiles be sampled using linear interpolation? Or point sampling? Intuitively it feels like it should be point sampling but I see artifacts at the edges of the tiles if I do. Note that with tiles of 20x20 pixels I'm making the assumption that the maximum kernel size allowed should be 10x10px. Maybe that is a false assumption?
