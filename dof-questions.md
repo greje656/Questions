@@ -26,7 +26,7 @@ The normalized alpha value I get looks like:
 And finally "lerp(background/background.a, foreground/foreground.a, alpha)":
 ![](https://github.com/greje656/Questions/blob/master/images/results.jpg)
 
-I'm wondering maybe the foreground/background layers should be weighted like this?
+I'm wondering maybe the foreground/background layers should be weighted like this? (... nah, that doesn't make sense! I'm so confused)
 
 foreground.rgb/SAMPLE_COUNT:
 ![](https://github.com/greje656/Questions/blob/master/images/foreground2.jpg)
