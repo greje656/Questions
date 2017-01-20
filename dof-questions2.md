@@ -9,3 +9,4 @@ I'm confused about weather or not the background samples are weighted correctly?
 
 Looking at the slides, it's almost is if any pixel's classified as 100% background should use a coc defined as:
 lerp(tileMaxCoc, currentPixel'sCoC, DepthCmp2(currentPixel'sDepth, closestTileDepth));
+I'm not sure!? 
