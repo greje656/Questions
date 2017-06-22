@@ -1,4 +1,4 @@
-####Reprojecting reflections
+#Reprojecting reflections
 
 Screen space reflections are such a pain. Combined with taa they are even harder to manage. Raytracing against a jittered depth/normals g-buffer can easily cause reflection rays to have widely different intersection points from frame to frame. When using neighborhood clamping, it can become difficult to minimize the flickering caused by too much clipping caused by the high variance in the ssr signal. On top of this reflections are very hard to reproject. Since they are view dependent simply fetching the motion vector from the current pixel tends to make the reprojection "smudge" under camera motion.
 
