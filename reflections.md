@@ -33,7 +33,7 @@ So instead I tried a different approach. The new idea was to pick a few reprojec
 
 We then declare the vector with the smallest magnitude as the most likely succesful reprojection vector. This simple idea alone has improved the reprojection of the ssr buffer quite significantly:
 
-![](http://i.imgur.com/QURbYF0.gifv)
+![Imgur](http://i.imgur.com/QURbYF0.gifv)
 
 Note that if casting multiple rays per pixel then averaging the sum of all reprojection vectors still gave us a better results than what we had previously.
 
