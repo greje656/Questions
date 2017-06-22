@@ -1,16 +1,39 @@
 #Reprojecting reflections
 
-Screen space reflections are such a pain. Combined with taa they are even harder to manage. Raytracing against a jittered depth/normals g-buffer can easily cause reflection rays to have widely different intersection points from frame to frame. When using neighborhood clamping, it can become difficult to minimize the flickering caused by too much clipping caused by the high variance in the ssr signal. On top of this reflections are very hard to reproject. Since they are view dependent simply fetching the motion vector from the current pixel tends to make the reprojection "smudge" under camera motion.
+Screen space reflections are such a pain. When combined with taa they are even harder to manage. Raytracing against jittered depth/normal g-buffers can easily cause reflection rays to have widely different intersection points from frame to frame. When using neighborhood clamping, it becomes difficult to handle the flickering caused by too much clipping caused by the high variance in the ssr signal. On top of this, reflections are very hard to reproject. Since they are view dependent simply fetching the motion vector from the current pixel tends to make the reprojection "smudge" under camera motion.
 
-Last year I spent some time trying to understand this problem a little bit more. First, I drew a ray diagram of how a reflection should reprojected:
+![](https://github.com/greje656/Questions/blob/master/images/foreground-original.png)
+
+Last year I spent some time trying to understand this problem a little bit more. I first drew a ray diagram desicrbing how a reflection could be reprojected in theory:
+
+1) Retrieve the surface motion vector (ms) corresponding to the reflection incidence point (v0)
+2) Reproject the incidence point using (ms)
+3) Using the previous depth buffer, reconstruct the reflection incidence point (v1)
+4) Retrieve the motion vector (mr) corresponding to the reflected point (p0)
+5) Reproject the reflection point using (mr)
+6) Using the depth buffer history, reconstruct the previous reflection point (p1)
+7) Using the previous view matrix transform, reconstruct the previous surface normal of the incidence point (n1)
+8) Project the camera position (deye ) and the reconstructed reflection point (dp1) onto the previous plane (defined by surface normal = n1, and surface point = v1)
+9) Solve for the position of the previous reflection point (r) knowing (deye ) and (dp1) 
+10) Finally, using the previous view-projection matrix, evaluate (r) in the previous reflection buffer. 
+
+![](https://github.com/greje656/Questions/blob/master/images/foreground-original.png)
 
 By adding to Stingray a copy of the depth buffer of the previous frame and using the previous view projection matrix I was able to confirm this approach could successfully reproject reflections:
 
-Unfortunately keeping a copy of the depthbuffer is a not really a feasible solution in a lot of scenarios.
+![](https://github.com/greje656/Questions/blob/master/images/foreground-original.png)
+
+Ghosting was definitly minimised under camera motion (note that here neighborhood clamping is disabled to visualize the success of the reprojection better):
+
+![](https://github.com/greje656/Questions/blob/master/images/foreground-original.png)
+
+Unfortunately keeping a copy of the depthbuffer is currently not really a feasible/appealing solution in a lot of scenarios. But it was a good exercise to understand the problem.
 
 So instead I tried a different approach. The new idea was to pick a few reprojection vectors that are likely to be meaningful in the context of a reflection. Looking at the case of camera rotation, translation, and object motion we can build three "interesting" vectors to consider:
 
 We then declare the vector with the smallest magnitude as the most likely succesful reprojection vector. This simple idea alone has improved the reprojection of the ssr buffer quite significantly:
+
+[Imgur](http://i.imgur.com/QURbYF0.gifv)
 
 Note that if casting multiple rays per pixel then averaging the sum of all reprojection vectors still gave us a better results than what we had previously.
 
