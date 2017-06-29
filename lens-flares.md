@@ -46,3 +46,12 @@ First, when a ray "misses" a lens, the raytracing routine isn't necessary stoppe
 ![](https://github.com/greje656/Questions/blob/master/images/trace-02.jpg)
 
 Only if the ray misses the sphere formed by the radius of the lens do we break the raytracing routine. The idea is that each ray trace keeps track of the maximum relative distance it had with a lens component at an intersection. Continuing to trace the ray, and using it's interpolated data yields a more stable signal than would be achieved otherwise.
+
+Secondly, a ray bundle carries a fixed amount of energy so it is important to consider the distortion of the bundle area that occurs while tracing them. In the paper there was this small segment:
+
+*"At each vertex, we store the average value of its surrounding neighbors. The regular grid of rays, combined with the transform feedback (or the stream-out) mechanism of modern graphics hardware, makes this lookup of neighboring quad values very easy"*
+
+I still don't really understand how the transform feedback, along with the available adjacency information of the geometry shade could be enough to provide the information of the four surrounding areas of a vertex (if you know please leave a comment). Luckily for me we now have compute and UAVs which turns this problem into a fairly trivial one. Currently I only calculate an approximation of the surrounding areas by assuming they neighbouring quads are roughly parallelograms. I estimate their bases and heights as the average lengths o their top/bottom, left/right segments. You can see the results as caustics where some bundles converge into tighter area patches while some other dilates:
+
+![](https://github.com/greje656/Questions/blob/master/images/lens-area.jpg)
+ 
