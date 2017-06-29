@@ -23,7 +23,8 @@ The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "ray b
 
 While some appreciate the artistic aspect of lens flare, lens manufacturers work hard on trying to minimize these by coating lenses with anti-reflection. As Padraic Hennessy points out on his blog, great progress was made with this in the last 20 years.
 
-#Ray tracing
+#Lens Interface Description
+
 Ok let's get into it. To trace rays in an optical system we obviously need to build an optical system first. This part can be tedious. Not only have you got to find the "Lens Prescription" of a lens, you also need to manually parse it. For example, parsing the Nikon 28-75mm patent data might look something like this:
 
 ![](https://github.com/greje656/Questions/blob/master/images/lens-description.jpg)
@@ -34,8 +35,14 @@ There is no standard way of describing such systems. You may find all the inform
 
 (from http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf)
 
-A parsed optical system will look something like this:
+#Ray Tracing
 
-Once you have parsed your lens description into something your trace algorithm can consume, you can then start to ray trace points. The idea is to start with a tesselated patch and trace through each of the points (these are called ray bundles in the paper). There are a couple of subtleties to note regarding the tracing algorithm.
+Once you have parsed your lens description into something your trace algorithm can consume you can then start to ray trace points! The idea is to start with a tessellated patch and trace through each of the points (these are called ray bundles in the paper). There are a couple of subtleties to note regarding the tracing algorithm.
 
+First, when a ray "misses" a lens, the raytracing routine isn't necessary stopped. Instead if the ray can continue with a path that is "meaningful" the ray trace continues until it reaches the sensor.
 
+![](https://github.com/greje656/Questions/blob/master/images/trace-01.jpg)
+
+![](https://github.com/greje656/Questions/blob/master/images/trace-02.jpg)
+
+Only if the ray misses the sphere formed by the radius of the lens do we break the raytracing routine. The idea is that each ray trace keeps track of the maximum relative distance it had with a lens component at an intersection. Continuing to trace the ray, and using it's interpolated data yields a more stable signal than would be achieved otherwise.
