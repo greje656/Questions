@@ -24,10 +24,18 @@ The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "ray b
 While some appreciate the artistic aspect of lens flare, lens manufacturers work hard on trying to minimize these by coating lenses with anti-reflection. As Padraic Hennessy points out on his blog, great progress was made with this in the last 20 years.
 
 #Ray tracing
-Ok let's get into it. To trace rays in an optical system we obviously need to build an optical system first. This part can be tedious. Not only have you got to find the "Lens Prescription" of a lens, you also need to manually parse it. There is no standard way of describing such systems. You may find all the information you need from a lens patent, but often (especially for older lenses) you end up staring at an old Russian document that seems to be missing important information required for the algorithm. For example, the Russain lens MIR-1 apparently produces beautiful flares, but the only lens description I could find for it was this:
+Ok let's get into it. To trace rays in an optical system we obviously need to build an optical system first. This part can be tedious. Not only have you got to find the "Lens Prescription" of a lens, you also need to manually parse it. For example, parsing the Nikon 28-75mm patent data might look something like this:
+
+![](https://github.com/greje656/Questions/blob/master/images/lens-description.jpg)
+
+There is no standard way of describing such systems. You may find all the information you need from a lens patent, but often (especially for older lenses) you end up staring at an old Russian document that seems to be missing important information required for the algorithm. For example, the Russian lens MIR-1 apparently produces beautiful flares, but the only lens description I could find for it was this:
 
 ![](https://github.com/greje656/Questions/blob/master/images/mir-1.jpg)
 
 (from http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf)
+
+A parsed optical system will look something like this:
+
+Once you have parsed your lens description into something your trace algorithm can consume, you can then start to ray trace points. The idea is to start with a tesselated patch and trace through each of the points (these are called ray bundles in the paper). There are a couple of subtleties to note regarding the tracing algorithm.
 
 
