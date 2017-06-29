@@ -26,7 +26,8 @@ While some appreciate the artistic aspect of lens flare, lens manufacturers work
 #Ray tracing
 Ok let's get into it. To trace rays in an optical system we obviously need to build an optical system first. This part can be tedious. Not only have you got to find the "Lens Prescription" of a lens, you also need to manually parse it. There is no standard way of describing such systems. You may find all the information you need from a lens patent, but often (especially for older lenses) you end up staring at an old Russian document that seems to be missing important information required for the algorithm. For example, the Russain lens MIR-1 apparently produces beautiful flares, but the only lens description I could find for it was this:
 
-![](https://github.com/greje656/Questions/blob/master/images/mir1.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/mir-1.jpg)
+
 (from http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf)
 
 
