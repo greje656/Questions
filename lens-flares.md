@@ -12,4 +12,9 @@ I intend to do a follow up blog posts once the Camera plugin once finished, but 
 All the code mentioned in this article can can be found here https://github.com/greje656/PhysicallyBasedLensFlare
 
 #Ghosts
+
 The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "ray bundles" into a lens system which will end up on a sensor to form a "ghost". A ghost here refers to the de-focused light that reaches the sensor of a camera due to the light reflecting off the lens. Since camera lens are not made of a single optical lens but many lens there can be many ghosts that forms on the sensor. If we only consider the ghosts that are formed from two bouces, that's a total of nCr(n,2) ghosts (where n is the number of lens components in a lens)
+
+![](https://github.com/greje656/Questions/blob/master/images/ghost1.jpg)
+
+(By the way, implementing a 2d version on the cpu has proven an invaluable way of understanding and debugging the gpu version).
