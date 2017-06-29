@@ -54,4 +54,17 @@ Secondly, a ray bundle carries a fixed amount of energy so it is important to co
 I still don't really understand how the transform feedback, along with the available adjacency information of the geometry shade could be enough to provide the information of the four surrounding areas of a vertex (if you know please leave a comment). Luckily for me we now have compute and UAVs which turns this problem into a fairly trivial one. Currently I only calculate an approximation of the surrounding areas by assuming they neighbouring quads are roughly parallelograms. I estimate their bases and heights as the average lengths o their top/bottom, left/right segments. You can see the results as caustics where some bundles converge into tighter area patches while some other dilates:
 
 ![](https://github.com/greje656/Questions/blob/master/images/lens-area.jpg)
- 
+
+This seems to work fairly well, although it is expansive. Something that I will improve in the future.
+
+Now that we have a traced patch we need to make some sense out of it. The patch "as is" can look intimidating at first. Due to early exits of some rays the final vertices can sometimes look like something went terribly wrong:
+
+![](https://github.com/greje656/Questions/blob/master/images/distortion.jpg)
+
+The first thing to do is discard pixels that exited the lens system. 
+
+float intensity1 = color.z < 1.0f;
+
+float intensity = intensity1;
+if(intensity == 0.f) discard;
+
