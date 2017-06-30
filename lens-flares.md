@@ -19,8 +19,6 @@ The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "ray b
 ![](https://github.com/greje656/Questions/blob/master/images/ghost02.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/ghost03.jpg)
 
-(By the way, implementing a 2d version on the cpu has proven an invaluable way of understanding and debugging the gpu version).
-
 While some appreciate the artistic aspect of lens flare, lens manufacturers work hard on trying to minimize these by coating lenses with anti-reflection. As Padraic Hennessy points out on his blog, great progress was made with this in the last 20 years.
 
 #Lens Interface Description
@@ -97,7 +95,7 @@ if(intensity == 0.f) discard;
 
 ![](https://github.com/greje656/Questions/blob/master/images/discard06.jpg)
 
-Finally we adjust the radiance of the beam based on it's final area:
+Finally we adjust the radiance of the beams based on their final areas:
 
 ~~~~
 ...
@@ -107,4 +105,10 @@ if(intensity == 0.f) discard;
 ~~~~
 
 ![](https://github.com/greje656/Questions/blob/master/images/discard07.jpg)
+
+The final value is the rgb reflectance value of the ghost modulated by the incoming light color:
+
+~~~~
+float3 color = intensity * input.reflectance.xyz * TemperatureToColor(INCOMING_LIGHT_TEMP);
+~~~~
 
