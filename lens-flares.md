@@ -19,8 +19,6 @@ The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "ray b
 ![](https://github.com/greje656/Questions/blob/master/images/ghost02.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/ghost03.jpg)
 
-While some appreciate the artistic aspect of lens flare, lens manufacturers work hard on trying to minimize these by coating lenses with anti-reflection. As Padraic Hennessy points out on his blog, great progress was made with this in the last 20 years.
-
 ### Lens Interface Description
 
 Ok let's get into it. To trace rays in an optical system we obviously need to build an optical system first. This part can be tedious. Not only have you got to find the "Lens Prescription" of a lens, you also need to manually parse it. For example, parsing the Nikon 28-75mm patent data might look something like this:
@@ -112,7 +110,7 @@ The final value is the rgb reflectance value of the ghost modulated by the incom
 float3 color = intensity * input.reflectance.xyz * TemperatureToColor(INCOMING_LIGHT_TEMP);
 ~~~~
 
-### Aperture shape
+### Aperture
 The aperture shape is built proceduraly. As Padraic Hennessy's blog suggestion, I use a signed distance field confined in "n" segments and threshold it against some distance value. I also experimented with approximating the light diffraction that occurs at the edge of the apperture blades (https://www.desmos.com/calculator/munv7q2ez3):
 
 ![](https://github.com/greje656/Questions/blob/master/images/apertures1.jpg)
@@ -120,3 +118,22 @@ The aperture shape is built proceduraly. As Padraic Hennessy's blog suggestion, 
 Finally, I offset the signed distance field with a repeating sin function which gives non straigh aperture blades:
 
 ![](https://github.com/greje656/Questions/blob/master/images/apertures2.jpg)
+
+### Starburst
+
+The starburst that is seen in photos is due to light diffraction that passes through the small aperture hole. The author got really convincing simulations using the Fraunhofer approximation. Unfortunatly the approximation requires bringing the aperture texture into fourrier space. In previous projects, I used Cuda's math library to perform FFT on a signal, but since the goal is to bring this into Stingray I didn't want to have such a dependency. But I found this little gem posted by Joseph S. from intel (https://software.intel.com/en-us/articles/fast-fourier-transform-for-image-processing-in-directx-11). He provides a clean and elegant compute implementation of the butterfly passes needed to bring a signal to and from fourier space. Using it, I was able to feed in the aperture shape in and extract a fourier power spectrum:
+(image)
+
+This sprectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that same fourrier signal can be used for all wavelength. The only thing needed is to scaled the sampling coordinates of the fourier signal based on the wavelength of the light (x0 , y0 ) = (u, v)*λ*z0.
+
+With this, you can also apply an extra filtering step that helps create a starburst that's a little more appealing. For example, I used a spiral pattern mixed with a small rotation to get a more intersting result (to be honest I think that's what the author is also doing to get the results he presents in his publication). This is another area that I would like to investigate a bit more in the future.
+
+### Anti Reflection Coating
+
+While some appreciate the artistic aspect of lens flare, lens manufacturers work hard on trying to minimize these by coating lenses with anti-reflection. As Padraic Hennessy points out on his blog, great progress was made with this in the last 20 years. (more detail here)
+
+### Optimisations
+
+Currently the performance of the Nikon lens with an light source of x is ~blah. The performance degrades as the light source is made bigger since it results in more and more overshading. With a simplier lens interface the cost decreases. This makes sense since (in the current implementation at least) every possible "two bounces" ghosts is traced and drawn. For a lens system like the Nikon 28-75mm which has 27 lens components, that's n!/r!(n-r)! = 352 ghosts. It's easy to see that this number can increase dramatically with the number of component that are part of a lens:
+https://www.desmos.com/calculator/rsrjo1mhy1
+One obvious optimization would be to skip ghosts that have low enough intensities that they are not perceptible. Using Compute/Draw Indirect it would be possible to do a very coarse raytrace pass to decide which ghosts exceed a certain intensity threshold and hence reduce the computation and rasterization pressure. This is on my todo list.
