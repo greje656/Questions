@@ -112,3 +112,11 @@ The final value is the rgb reflectance value of the ghost modulated by the incom
 float3 color = intensity * input.reflectance.xyz * TemperatureToColor(INCOMING_LIGHT_TEMP);
 ~~~~
 
+# Aperture shape
+The aperture shape is built proceduraly. As Padraic Hennessy's blog suggestion, I use a signed distance field confined in "n" segments and threshold it against some distance value. I also experimented with approximating the light diffraction that occurs at the edge of the apperture blades (https://www.desmos.com/calculator/munv7q2ez3):
+
+![](https://github.com/greje656/Questions/blob/master/images/apertures1.jpg)
+
+Finally, I offset the signed distance field with a repeating sin function which gives non straigh aperture blades:
+
+![](https://github.com/greje656/Questions/blob/master/images/apertures2.jpg)
