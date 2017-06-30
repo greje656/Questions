@@ -99,9 +99,12 @@ if(intensity == 0.f) discard;
 
 Finally we adjust the radiance of the beam based on it's final area:
 
+~~~~
+...
 float intensity4 = color.w;
 float intensity = intensity1 * intensity2 * intensity3 * intensity4;
 if(intensity == 0.f) discard;
+~~~~
 
 ![](https://github.com/greje656/Questions/blob/master/images/discard07.jpg)
 
