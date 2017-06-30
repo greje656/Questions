@@ -33,7 +33,7 @@ There is no standard way of describing such systems. You may find all the inform
 
 ![](https://github.com/greje656/Questions/blob/master/images/mir-1.jpg)
 
-(from http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf)
+(http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf)
 
 #Ray Tracing
 
@@ -70,6 +70,20 @@ if(intensity == 0.f) discard;
 ~~~~
 
 ![](https://github.com/greje656/Questions/blob/master/images/discard04.jpg)
+
+Then we can discard the rays that didn't have any energy as they entered to begin with (say outside the sun disk)
+
+~~~~
+float lens_distance = length(coordinates.xy);
+float sun_disk = 1 - saturate((lens_distance - 1.f + fade)/fade);
+sun_disk = smoothstep(0, 1, sun_disk);
+sun_disk *= lerp(0.5, 1, saturate(lens_distance));
+...
+float intensity2 = sun_disk;
+float intensity = intensity1 * intensity2;
+if(intensity == 0.f) discard;
+~~~~
+
 ![](https://github.com/greje656/Questions/blob/master/images/discard05.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/discard06.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/discard07.jpg)
