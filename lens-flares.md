@@ -61,7 +61,7 @@ Now that we have a traced patch we need to make some sense out of it. The patch 
 
 ![](https://github.com/greje656/Questions/blob/master/images/discard03.jpg)
 
-The first thing to do is discard pixels that exited the lens system. 
+The first thing to do is discard pixels that exited the lens system:
 
 ~~~~
 float intensity1 = color.z < 1.0f;
@@ -71,7 +71,7 @@ if(intensity == 0.f) discard;
 
 ![](https://github.com/greje656/Questions/blob/master/images/discard04.jpg)
 
-Then we can discard the rays that didn't have any energy as they entered to begin with (say outside the sun disk)
+Then we can discard the rays that didn't have any energy as they entered to begin with (say outside the sun disk):
 
 ~~~~
 float lens_distance = length(coordinates.xy);
@@ -85,6 +85,23 @@ if(intensity == 0.f) discard;
 ~~~~
 
 ![](https://github.com/greje656/Questions/blob/master/images/discard05.jpg)
+
+Then we can discard the rays that we're blocked by the aperture:
+
+~~~~
+...
+float intensity3 = aperture_texture;
+float intensity = intensity1 * intensity2 * intensity3;
+if(intensity == 0.f) discard;
+~~~~
+
 ![](https://github.com/greje656/Questions/blob/master/images/discard06.jpg)
+
+Finally we adjust the radiance of the beam based on it's final area:
+
+float intensity4 = color.w;
+float intensity = intensity1 * intensity2 * intensity3 * intensity4;
+if(intensity == 0.f) discard;
+
 ![](https://github.com/greje656/Questions/blob/master/images/discard07.jpg)
 
