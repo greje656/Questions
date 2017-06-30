@@ -59,7 +59,7 @@ This seems to work fairly well, although it is expansive. Something that I will 
 
 Now that we have a traced patch we need to make some sense out of it. The patch "as is" can look intimidating at first. Due to early exits of some rays the final vertices can sometimes look like something went terribly wrong:
 
-![](https://github.com/greje656/Questions/blob/master/images/discard01.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/discard03.jpg)
 
 The first thing to do is discard pixels that exited the lens system. 
 
@@ -69,8 +69,6 @@ float intensity = intensity1;
 if(intensity == 0.f) discard;
 ~~~~
 
-![](https://github.com/greje656/Questions/blob/master/images/discard02.jpg)
-![](https://github.com/greje656/Questions/blob/master/images/discard03.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/discard04.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/discard05.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/discard06.jpg)
