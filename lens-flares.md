@@ -28,8 +28,7 @@ Ok let's get into it. To trace rays in an optical system we obviously need to bu
 There is no standard way of describing such systems. You may find all the information you need from a lens patent, but often (especially for older lenses) you end up staring at an old document that seems to be missing important information required for the algorithm. For example, the Russian lens MIR-1 apparently produces beautiful flares, but the only lens description I could find for it was this:
 
 ![](https://github.com/greje656/Questions/blob/master/images/mir-1.jpg)
-
-(http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf)
+http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf
 
 ### Ray Tracing
 
@@ -126,9 +125,10 @@ The starburst phenomena is due to light diffraction that passes through the smal
 
 This sprectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that the same fourrier signal can be used for all wavelengths. The only thing needed is to scale the sampling coordinates of the fourier power spectrum : (x0,y0) = (u,v)·λ·z0.
 
+350nm/435nm/525nm/700nm
 ![](https://github.com/greje656/Questions/blob/master/images/starburst01.jpg)
 
-Summing up a set of wavelengths (say 350nm to 700nm) gives the starburst image. To get more interesting results I apply an extra filtering step. I use a spiral pattern mixed with a small rotation to get rid of any left over radial ringing artifacts (jusdging by the author's starburst results I suspect this is a step they are also doing).
+Summing up a set of wavelengths (say 350nm to 700nm) gives the starburst image. To get more interesting results I apply an extra filtering step. I use a spiral pattern mixed with a small rotation to get rid of any left over radial ringing artifacts (judging by the author's starburst results I suspect this is a step they are also doing).
 
 ![](https://github.com/greje656/Questions/blob/master/images/starburst02.jpg)
 
