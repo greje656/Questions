@@ -7,7 +7,7 @@ While playing Horizon Zero Dawn I got inspired by the lens flares they supported
 4) Camera ghosts due to Sun or Moon (High quality)
 3) Camera ghosts due to all other light sources (Low quality)
 
-I intend to do a follow up blog posts once the Camera plugin is finished, but for now I wanted to share the implementation details of the high-quality ghosts which are an implementation of "Physically-Based Real-Time Lens Flare Rendering": http://resources.mpi-inf.mpg.de/lensflareRendering.
+I intend to do a follow up blog posts once the Camera plugin is finished, but for now I wanted to share the implementation details of the high-quality ghosts which are an implementation of ["Physically-Based Real-Time Lens Flare Rendering"](http://resources.mpi-inf.mpg.de/lensflareRendering).
 
 All the code used to generate the images and videos of this article can can be found here: https://github.com/greje656/PhysicallyBasedLensFlare
 
@@ -27,7 +27,7 @@ Ok let's get into it. To trace rays in an optical system we obviously need to bu
 
 There is no standard way of describing such systems. You may find all the information you need from a lens patent, but often (especially for older lenses) you end up staring at an old document that seems to be missing important information required for the algorithm. For example, the Russian lens MIR-1 apparently produces beautiful flares, but the only lens description I could find for it was this:
 
-From: http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf
+http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf
 ![](https://github.com/greje656/Questions/blob/master/images/mir-1.jpg)
 
 ### Ray Tracing
@@ -50,7 +50,7 @@ I don't understand how the transform feedback, along with the available adjacenc
 
 ![](https://github.com/greje656/Questions/blob/master/images/lens-area.jpg)
 
-This works fairly well but is expansive. Something that I intend to improve in the future.
+This works fairly well but is [expansive](https://github.com/greje656/PhysicallyBasedLensFlare/blob/master/Lens/lens.hlsl#L198). Something that I intend to improve in the future.
 
 Now that we have a traced patch we need to make some sense out of it. The patch "as is" can look intimidating at first. Due to early exits of some rays the final vertices can sometimes look like something went terribly wrong:
 
