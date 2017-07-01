@@ -130,7 +130,7 @@ This spectrum needs to be filtered further in order to look like a starburst. Th
 
 Summing up the wavelengths gives the starburst image. To get more interesting results I apply an extra filtering step. I use a spiral pattern mixed with a small rotation to get rid of any left over radial ringing artifacts (judging by the author's starburst results I suspect this is a step they are also doing).
 
-![](https://github.com/greje656/Questions/blob/master/images/starburst02.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/starburst06.jpg)
 
 ### Anti Reflection Coating
 
