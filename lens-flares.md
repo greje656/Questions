@@ -124,7 +124,7 @@ The starburst phenomena is due to light diffraction that passes through the smal
 
 ![](https://github.com/greje656/Questions/blob/master/images/starburst04.jpg)
 
-This sprectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that the same fourrier signal can be used for all wavelengths. The only thing needed is to scale the sampling coordinates of the fourier power spectrum : (x0 , y0 ) = (u, v) · λ · z0.
+This sprectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that the same fourrier signal can be used for all wavelengths. The only thing needed is to scale the sampling coordinates of the fourier power spectrum : (x0,y0) = (u,v)·λ·z0.
 
 ![](https://github.com/greje656/Questions/blob/master/images/starburst01.jpg)
 
@@ -134,7 +134,15 @@ Summing up a set of wavelengths (say 350nm to 700nm) gives the starburst image. 
 
 ### Anti Reflection Coating
 
-While some appreciate the artistic aspect of lens flare, lens manufacturers work hard on trying to minimize these by coating lenses with anti-reflection. As Padraic Hennessy points out on his blog, great progress was made with this in the last 20 years. (more detail here)
+While some appreciate the artistic aspect of lens flare, lens manufacturers work hard to minimize them by coating lenses with anti-reflection coatings. The coatings applied to each lens are usually designed to minimize the reflection of a specific wavelength. Given the wavelength to minimize reflection for, and the refractive index of the two medium involved in the reflection, the ideal thickness of the coating is defined as λ/4·n1 where n1 = sqrt(n0·n1). This is known as a quarter wavelength anti-reflection coating. I've found this site very helpful to describe the phenomena http://www.pveducation.org/pvcdrom/anti-reflection-coatings.   
+
+In the current implementation each lens coatings specifies a wavelength the coating should be optimized for. The ideal thicknesses and ior are used by default. But I also added a controllable offset to thicken the AR coating layer in order to prevent from killing the reflections too much. The following images compare a lens with no AR coating with one coated with ideal values and one coated with offseted thickness values: 
+
+![](https://github.com/greje656/Questions/blob/master/images/arc01.jpg)
+
+![](https://github.com/greje656/Questions/blob/master/images/arc02.jpg)
+
+![](https://github.com/greje656/Questions/blob/master/images/arc03.jpg)
 
 ### Optimisations
 
