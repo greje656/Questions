@@ -109,7 +109,7 @@ float3 color = intensity * input.reflectance.xyz * TemperatureToColor(INCOMING_L
 ~~~~
 
 ### Aperture
-The aperture shape is built proceduraly. As suggested by Padraic Hennessy's blog I use a sign distance field confined by "n" segments and threshold it against some distance value. I also experimented with approximating the light diffraction that occurs at the edge of the apperture blades using a simple function: https://www.desmos.com/calculator/munv7q2ez3:
+The aperture shape is built proceduraly. As suggested by [Padraic Hennessy's blog](https://placeholderart.wordpress.com/2015/01/19/implementation-notes-physically-based-lens-flares/) I use a sign distance field confined by "n" segments and threshold it against some distance value. I also experimented with approximating the light diffraction that occurs at the edge of the apperture blades using a [simple function](https://www.desmos.com/calculator/munv7q2ez3):
 
 ![](https://github.com/greje656/Questions/blob/master/images/apertures1.jpg)
 
@@ -136,7 +136,7 @@ Summing up the wavelengths gives the starburst image. To get more interesting re
 
 While some appreciate the artistic aspect of lens flare, lens manufacturers work hard to minimize them by coating lenses with anti-reflection coatings. The coatings applied to each lens are usually designed to minimize the reflection of a specific wavelength. Given the wavelength to minimize reflection for, and the refractive index of the two medium involved in the reflection (say n0 and n2), the ideal ior (n1) and thickness (d) of the coating are defined as n1 = sqrt(n0·n2) and d=λ/4·n1. This is known as a quarter wavelength anti-reflection coating. I've found [this site](http://www.pveducation.org/pvcdrom/anti-reflection-coatings) very helpful to understand this phenomena.
 
-In the current implementation each lens coatings specifies a wavelength the coating should be optimized for. The ideal thicknesses and ior are used by default. But I also added a controllable offset to thicken the AR coating layer in order to prevent it from killing the reflections too much. 
+In the current implementation each lens coatings specifies a wavelength the coating should be optimized for and the ideal thicknesses and ior are used by default. I added a controllable offset to thicken the AR coating layer in order to prevent it from killing the reflections too much. 
 
 No AR Coating:
 ![](https://github.com/greje656/Questions/blob/master/images/arc01.jpg)
@@ -149,6 +149,6 @@ AR Coating with offsetted ideal thickness:
 
 ### Optimisations
 
-Currently the full cost of the effect for a Nikon 28-75mm lens is xxxms. The performance degrades as the sun disk is made bigger since it results in more and more overshading during the rasterisation of each ghosts. With a simpler lens interface like the 1955 Angenieux the cost decreases significantly. In the current implementation every possible "two bounce ghost" is traced and drawn. For a lens system like the Nikon 28-75mm which has 27 lens components, that's n!/r!(n-r)! = 352 ghosts. It's easy to see that this number can increase dramatically with the number of component that are part of a lens: https://www.desmos.com/calculator/rsrjo1mhy1
+Currently the full cost of the effect for a Nikon 28-75mm lens is xxxms. The performance degrades as the sun disk is made bigger since it results in more and more overshading during the rasterisation of each ghosts. With a simpler lens interface like the 1955 Angenieux the cost decreases significantly. In the current implementation every possible "two bounce ghost" is traced and drawn. For a lens system like the Nikon 28-75mm which has 27 lens components, that's n!/r!(n-r)! = 352 ghosts. It's easy to see that this number can [increase dramatically](https://www.desmos.com/calculator/rsrjo1mhy1) with the number of component that are part of a lens.
 
 An obvious optimization would be to skip ghosts that have intensities so lows that their contributions are imperceptible. Using Compute/DrawIndirect it would be fairly simple to first run a coarse pass and use it to cull non contributing ghosts. This would reduce the compute and rasterization pressure on the gpu dramatically. Something I intend to do in future.
