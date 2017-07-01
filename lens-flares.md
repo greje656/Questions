@@ -124,11 +124,11 @@ The starburst phenomena is due to light diffraction that passes through the smal
 
 ![](https://github.com/greje656/Questions/blob/master/images/starburst04.jpg)
 
-This sprectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that same fourrier signal can be used for all wavelength. The only thing needed is to scaled the sampling coordinates of the fourier signal based on the wavelength of the light (x0 , y0 ) = (u, v)*λ*z0.
+This sprectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that the same fourrier signal can be used for all wavelengths. The only thing needed is to scale the sampling coordinates of the fourier power spectrum : (x0 , y0 ) = (u, v) · λ · z0.
 
 ![](https://github.com/greje656/Questions/blob/master/images/starburst01.jpg)
 
-With this, you can also apply an extra filtering step that helps create a starburst that's a little more appealing. For example, I used a spiral pattern mixed with a small rotation to get a more intersting result (to be honest I think that's what the author is also doing to get the results he presents in his publication). This is another area that I would like to investigate a bit more in the future.
+Summing up a set of wavelengths (say 350nm to 700nm) gives the starburst image. To get more interesting results I apply an extra filtering step. I use a spiral pattern mixed with a small rotation to get rid of any left over radial ringing artifacts (jusdging by the author's starburst results I suspect this is a step they are also doing).
 
 ![](https://github.com/greje656/Questions/blob/master/images/starburst02.jpg)
 
