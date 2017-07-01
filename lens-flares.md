@@ -120,10 +120,13 @@ Finally, I offset the signed distance field with a repeating sin function which 
 
 ### Starburst
 
-Starburst are due to light diffraction that passes through the small aperture hole. It's a well known physics phenomena known as the "single slit diffraction of light". The author got really convincing simulations using the Fraunhofer approximation. The trick with this approximation is that it requires bringing the aperture texture into fourrier space. In previous projects, I used Cuda's math library to perform FFT on a signal, but since the goal is to bring this into Stingray I didn't want to have such a dependency. Luckely I found this little gem posted by Joseph S. from intel (https://software.intel.com/en-us/articles/fast-fourier-transform-for-image-processing-in-directx-11). He provides a clean and elegant compute implementation of the butterfly passes needed to bring a signal to and from fourier space. Using it I was able to feed in the aperture shape in and extract a fourier power spectrum:
-(image)
+The starburst phenomena is due to light diffraction that passes through the small aperture hole. It's a phenomena known as the "single slit diffraction of light". The author got really convincing results to simulate this using the Fraunhofer approximation. The challenge with this approach is that it requires bringing the aperture texture into fourrier space which is not trivial. In previous projects I used Cuda's math library to perform FFT on a signal but since the goal is to bring this into Stingray I didn't want to have such a dependency. Luckily I found this little gem posted by Joseph S. from intel (https://software.intel.com/en-us/articles/fast-fourier-transform-for-image-processing-in-directx-11). He provides a clean and elegant compute implementation of the butterfly passes method which bring a signal to and from fourier space. Using it I was able to feed in the aperture shape and extract a fourier power spectrum.
+
+![](https://github.com/greje656/Questions/blob/master/images/apertures3.jpg)
 
 This sprectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that same fourrier signal can be used for all wavelength. The only thing needed is to scaled the sampling coordinates of the fourier signal based on the wavelength of the light (x0 , y0 ) = (u, v)*λ*z0.
+
+![](https://github.com/greje656/Questions/blob/master/images/apertures1.jpg)
 
 With this, you can also apply an extra filtering step that helps create a starburst that's a little more appealing. For example, I used a spiral pattern mixed with a small rotation to get a more intersting result (to be honest I think that's what the author is also doing to get the results he presents in his publication). This is another area that I would like to investigate a bit more in the future.
 
