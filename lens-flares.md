@@ -136,12 +136,15 @@ Summing up a set of wavelengths (say 350nm to 700nm) gives the starburst image. 
 
 While some appreciate the artistic aspect of lens flare, lens manufacturers work hard to minimize them by coating lenses with anti-reflection coatings. The coatings applied to each lens are usually designed to minimize the reflection of a specific wavelength. Given the wavelength to minimize reflection for, and the refractive index of the two medium involved in the reflection, the ideal thickness of the coating is defined as λ/4·n1 where n1 = sqrt(n0·n1). This is known as a quarter wavelength anti-reflection coating. I've found this site very helpful to describe the phenomena http://www.pveducation.org/pvcdrom/anti-reflection-coatings.   
 
-In the current implementation each lens coatings specifies a wavelength the coating should be optimized for. The ideal thicknesses and ior are used by default. But I also added a controllable offset to thicken the AR coating layer in order to prevent from killing the reflections too much. The following images compare a lens with no AR coating with one coated with ideal values and one coated with offseted thickness values: 
+In the current implementation each lens coatings specifies a wavelength the coating should be optimized for. The ideal thicknesses and ior are used by default. But I also added a controllable offset to thicken the AR coating layer in order to prevent from killing the reflections too much. 
 
+No AR Coating:
 ![](https://github.com/greje656/Questions/blob/master/images/arc01.jpg)
 
+Ideal AR Coating:
 ![](https://github.com/greje656/Questions/blob/master/images/arc02.jpg)
 
+AR Coating with offsetted ideal thickness:
 ![](https://github.com/greje656/Questions/blob/master/images/arc03.jpg)
 
 ### Optimisations
