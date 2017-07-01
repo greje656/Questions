@@ -32,7 +32,7 @@ From: http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e
 
 ### Ray Tracing
 
-Once you have parsed your lens description into something your trace algorithm can consume you can then start to ray trace points! The idea is to start with a tessellated patch and trace through each of the points (these are called ray bundles in the paper). There are a couple of subtleties to note regarding the tracing algorithm.
+Once you have parsed your lens description into something your trace algorithm can consume you can then start to ray trace. The idea is to initialize a tessellated patch at the camera's light entry point and trace through each of the points in the direction of the incoming light. There are a couple of subtleties to note regarding the tracing algorithm.
 
 First, when a ray "misses" a lens component the raytracing routine isn't necessarily stopped. Instead if the ray can continue with a path that is meaningful the ray trace continues until it reaches the sensor.
 
@@ -128,7 +128,7 @@ This sprectrum needs to be filtered further in order to look like a starburst. T
 350nm/435nm/525nm/700nm
 ![](https://github.com/greje656/Questions/blob/master/images/starburst01.jpg)
 
-Summing up a set of wavelengths (say 350nm to 700nm) gives the starburst image. To get more interesting results I apply an extra filtering step. I use a spiral pattern mixed with a small rotation to get rid of any left over radial ringing artifacts (judging by the author's starburst results I suspect this is a step they are also doing).
+Summing up the wavelengths gives the starburst image. To get more interesting results I apply an extra filtering step. I use a spiral pattern mixed with a small rotation to get rid of any left over radial ringing artifacts (judging by the author's starburst results I suspect this is a step they are also doing).
 
 ![](https://github.com/greje656/Questions/blob/master/images/starburst02.jpg)
 
@@ -151,4 +151,5 @@ AR Coating with offsetted ideal thickness:
 
 Currently the performance of the Nikon lens with an light source of x is ~blah. The performance degrades as the light source is made bigger since it results in more and more overshading. With a simplier lens interface the cost decreases. This makes sense since (in the current implementation at least) every possible "two bounces" ghosts is traced and drawn. For a lens system like the Nikon 28-75mm which has 27 lens components, that's n!/r!(n-r)! = 352 ghosts. It's easy to see that this number can increase dramatically with the number of component that are part of a lens:
 https://www.desmos.com/calculator/rsrjo1mhy1
-One obvious optimization would be to skip ghosts that have low enough intensities that they are not perceptible. Using Compute/Draw Indirect it would be possible to do a very coarse raytrace pass to decide which ghosts exceed a certain intensity threshold and hence reduce the computation and rasterization pressure. This is on my todo list.
+
+One obvious optimization would be to skip ghosts that have low enough intensities that they are not perceptible. Using Compute/Draw Indirect it would be fairly simple to do a first very coarse ray trace pass to decide which ghosts exceed a certain intensity threshold and hence reduce the computation and rasterization pressure drastically.
