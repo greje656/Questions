@@ -126,7 +126,7 @@ The starburst phenomena is due to light diffraction that passes through the smal
 This spectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that the same Fourier signal can be used for all wavelengths. The only thing needed is to scale the sampling coordinates of the Fourier power spectrum : (x0,y0) = (u,v)·λ·z0.
 
 350nm/435nm/525nm/700nm
-![](https://github.com/greje656/Questions/blob/master/images/starburst01.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/starburst05.jpg)
 
 Summing up the wavelengths gives the starburst image. To get more interesting results I apply an extra filtering step. I use a spiral pattern mixed with a small rotation to get rid of any left over radial ringing artifacts (judging by the author's starburst results I suspect this is a step they are also doing).
 
