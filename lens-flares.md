@@ -7,13 +7,13 @@ While playing Horizon Zero Dawn I got inspired by the lens flares they supported
 4) Camera ghosts due to Sun or Moon (High quality)
 3) Camera ghosts due to all other light sources (Low quality)
 
-I intend to do a follow up blog posts once the Camera plugin once finished, but for now I wanted share the implementation details of the high-quality ghosts which are an implementation of "Physically-Based Real-Time Lens Flare Rendering" (http://resources.mpi-inf.mpg.de/lensflareRendering).
+I intend to do a follow up blog posts once the Camera plugin is finished, but for now I wanted to share the implementation details of the high-quality ghosts which are an implementation of "Physically-Based Real-Time Lens Flare Rendering": http://resources.mpi-inf.mpg.de/lensflareRendering.
 
-All the code used to generate the images and videos of this article can can be found here https://github.com/greje656/PhysicallyBasedLensFlare
+All the code used to generate the images and videos of this article can can be found here: https://github.com/greje656/PhysicallyBasedLensFlare
 
 ### Ghosts
 
-The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "bundles" into a lens system which will end up on a sensor to form a ghost. A ghost here refers to the de-focused light that reaches the sensor of a camera due to the light reflecting off the lenses. Since a camera lens is not typicallt made of a single optical lens but many lenses there can be many ghosts that forms on it's sensor. If we only consider the ghosts that are formed from two bounces, that's a total of nCr(n,2) possible ghosts (where n is the number of lens components in a camera lens)
+The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "bundles" into a lens system which will end up on a sensor to form a ghost. A ghost here refers to the de-focused light that reaches the sensor of a camera due to the light reflecting off the lenses. Since a camera lens is not typically made of a single optical lens but many lenses there can be many ghosts that forms on it's sensor. If we only consider the ghosts that are formed from two bounces, that's a total of nCr(n,2) possible ghosts (where n is the number of lens components in a camera lens)
 
 ![](https://github.com/greje656/Questions/blob/master/images/ghost01.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/ghost02.jpg)
@@ -44,7 +44,7 @@ Only if the ray misses the sphere formed by the radius of the lens do we break t
 
 Secondly, a ray bundle carries a fixed amount of energy so it is important to consider the distortion of the bundle area that occurs while tracing them. In the paper, the author makes this small segment:
 
-*"At each vertex, we store the average value of its surrounding neighbors. The regular grid of rays, combined with the transform feedback (or the stream-out) mechanism of modern graphics hardware, makes this lookup of neighboring quad values very easy"*
+*"At each vertex, we store the average value of its surrounding neighbours. The regular grid of rays, combined with the transform feedback (or the stream-out) mechanism of modern graphics hardware, makes this lookup of neighbouring quad values very easy"*
 
 I don't understand how the transform feedback, along with the available adjacency information of the geometry shader could be enough to provide the information of the four surrounding quads of a vertex (if you know please leave a comment). Luckily we now have compute and UAVs which turns this problem into a fairly trivial one. Currently I only calculate an approximation of the surrounding areas by assuming they neighbouring quads are roughly parallelograms. I estimate their bases and heights as the average lengths o their top/bottom, left/right segments. The results are seen as caustics form where some bundles converge into tighter area patches while some other dilates:
 
@@ -119,11 +119,11 @@ Finally, I offset the signed distance field with a repeating sin function which 
 
 ### Starburst
 
-The starburst phenomena is due to light diffraction that passes through the small aperture hole. It's a phenomena known as the "single slit diffraction of light". The author got really convincing results to simulate this using the Fraunhofer approximation. The challenge with this approach is that it requires bringing the aperture texture into fourrier space which is not trivial. In previous projects I used Cuda's math library to perform FFT on a signal but since the goal is to bring this into Stingray I didn't want to have such a dependency. Luckily I found this little gem posted by Joseph S. from intel (https://software.intel.com/en-us/articles/fast-fourier-transform-for-image-processing-in-directx-11). He provides a clean and elegant compute implementation of the butterfly passes method which bring a signal to and from fourier space. Using it I was able to feed in the aperture shape and extract a fourier power spectrum.
+The starburst phenomena is due to light diffraction that passes through the small aperture hole. It's a phenomena known as the "single slit diffraction of light". The author got really convincing results to simulate this using the Fraunhofer approximation. The challenge with this approach is that it requires bringing the aperture texture into Fourier space which is not trivial. In previous projects I used Cuda's math library to perform FFT on a signal but since the goal is to bring this into Stingray I didn't want to have such a dependency. Luckily I found this little gem posted by Joseph S. from intel (https://software.intel.com/en-us/articles/fast-fourier-transform-for-image-processing-in-directx-11). He provides a clean and elegant compute implementation of the butterfly passes method which bring a signal to and from Fourier space. Using it I was able to feed in the aperture shape and extract a Fourier power spectrum.
 
 ![](https://github.com/greje656/Questions/blob/master/images/starburst04.jpg)
 
-This sprectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that the same fourrier signal can be used for all wavelengths. The only thing needed is to scale the sampling coordinates of the fourier power spectrum : (x0,y0) = (u,v)·λ·z0.
+This spectrum needs to be filtered further in order to look like a starburst. This is where the Fraunhofer approximation comes in. The idea is to basically reconstruct the diffraction of white light by summing up the diffraction of multiple wavelengths. The key observation is that the same Fourier signal can be used for all wavelengths. The only thing needed is to scale the sampling coordinates of the Fourier power spectrum : (x0,y0) = (u,v)·λ·z0.
 
 350nm/435nm/525nm/700nm
 ![](https://github.com/greje656/Questions/blob/master/images/starburst01.jpg)
