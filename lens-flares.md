@@ -155,7 +155,7 @@ An obvious optimization would be to skip ghosts that have intensities so lows th
 
 ### Conclusion
 
-I'm not sure if this approach was ever used in a game. It would probably be hard to justify it's heavy cost. I feel this would have a better use case in the context of pre-visualization where a director might be interested in having early feeback on how a certain lens might behave for a particular shot.
+I'm not sure if this approach was ever used in a game. It would probably be hard to justify it's heavy cost. I feel this would have a better use case in the context of pre-visualization where a director might be interested in having early feeback on how a certain lens might behave in a shot.
 
 Original:
 ![](https://github.com/greje656/Questions/blob/master/images/example1.jpg)
