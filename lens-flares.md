@@ -159,7 +159,7 @@ I'm not sure if this approach was ever used in a game. Probably hard to justify 
 
 ![](https://github.com/greje656/Questions/blob/master/images/example1.jpg)
 
-![](https://github.com/greje656/Questions/blob/master/images/example2.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/example5.jpg)
 
 ![](https://github.com/greje656/Questions/blob/master/images/example3.jpg)
 
