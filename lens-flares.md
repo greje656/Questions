@@ -152,3 +152,15 @@ AR Coating with offsetted thickness:
 Currently the full cost of the effect for a Nikon 28-75mm lens is xxxms. The performance degrades as the sun disk is made bigger since it results in more and more overshading during the rasterisation of each ghosts. With a simpler lens interface like the 1955 Angenieux the cost decreases significantly. In the current implementation every possible "two bounce ghost" is traced and drawn. For a lens system like the Nikon 28-75mm which has 27 lens components, that's n!/r!(n-r)! = 352 ghosts. It's easy to see that this number can [increase dramatically](https://www.desmos.com/calculator/rsrjo1mhy1) with the number of component.
 
 An obvious optimization would be to skip ghosts that have intensities so lows that their contributions are imperceptible. Using Compute/DrawIndirect it would be fairly simple to first run a coarse pass and use it to cull non contributing ghosts. This would reduce the compute and rasterization pressure on the gpu dramatically. Something I intend to do in future.
+
+### Conclusion
+
+I'm not sure if this approach was ever used in a game. Probably hard to justify it's heavy cost. I feel this would probably have a better use case in the context of pre-visualization where a director might be interested in how a certain lens might behave for a particular shot:
+
+![](https://github.com/greje656/Questions/blob/master/images/example1.jpg)
+
+![](https://github.com/greje656/Questions/blob/master/images/example1.jpg)
+
+![](https://github.com/greje656/Questions/blob/master/images/example3.jpg)
+
+![](https://github.com/greje656/Questions/blob/master/images/example4.jpg)
