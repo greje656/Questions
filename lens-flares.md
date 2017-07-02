@@ -155,12 +155,18 @@ An obvious optimization would be to skip ghosts that have intensities so lows th
 
 ### Conclusion
 
-I'm not sure if this approach was ever used in a game. Probably hard to justify it's heavy cost. I feel this would probably have a better use case in the context of pre-visualization where a director might be interested in how a certain lens might behave for a particular shot:
+I'm not sure if this approach was ever used in a game. It would probably be hard to justify it's heavy cost. I feel this would have a better use case in the context of pre-visualization where a director might be interested in having early feeback on how a certain lens might behave for a particular shot.
 
+Original:
 ![](https://github.com/greje656/Questions/blob/master/images/example1.jpg)
 
+Added Flare:
 ![](https://github.com/greje656/Questions/blob/master/images/example5.jpg)
 
+Original:
 ![](https://github.com/greje656/Questions/blob/master/images/example3.jpg)
 
+Added Flare:
 ![](https://github.com/greje656/Questions/blob/master/images/example4.jpg)
+
+Finally, I noticed that the author has filled a patent for the algorithm described above (which is really a bummer). So obviously one would need to contact him before using this method in a commercial context. 
