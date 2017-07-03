@@ -16,7 +16,7 @@ All the code used to generate the images and videos of this article can can be f
 
 ### Ghosts
 
-The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "bundles" into a lens system which will end up on a sensor to form a ghost. A ghost here refers to the de-focused light that reaches the sensor of a camera due to the light reflecting off the lenses. Since a camera lens is not typically made of a single optical lens but many lenses there can be many ghosts that form on it's sensor. If we only consider the ghosts that are formed from two bounces, that's a total of nCr(n,2) possible ghosts (where n is the number of lens components in a camera lens)
+The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "bundles" into a lens system which will end up on a sensor to form a ghost. A ghost here refers to the de-focused light that reaches the sensor of a camera due to the light reflecting off the lenses. Since a camera lens is not typically made of a single optical lens but many lenses there can be many ghosts that form on it's sensor. If we only consider the ghosts that are formed from two bounces, that's a total of [nCr(n,2)](https://www.desmos.com/calculator/rsrjo1mhy1) possible ghosts (where n is the number of lens components in a camera lens)
 
 ![](https://github.com/greje656/Questions/blob/master/images/ghost01.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/ghost02.jpg)
@@ -36,15 +36,12 @@ There is no standard way of describing such systems. You may find all the inform
 
 Once you have parsed your lens description into something your trace algorithm can consume, you can then start to ray trace. The idea is to initialize a tessellated patch at the camera's light entry point and trace through each of the points in the direction of the incoming light. There are a couple of subtleties to note regarding the tracing algorithm.
 
-First, when a ray misses a lens component the raytracing routine isn't necessarily stopped. Instead if the ray can continue with a path that is meaningful the ray trace continues until it reaches the sensor.
+First, when a ray misses a lens component the raytracing routine isn't necessarily stopped. Instead if the ray can continue with a path that is meaningful the ray trace continues until it reaches the sensor. Only if the ray misses the sphere formed by the radius of the lens do we break the raytracing routine. The idea behind this is to get as many traced points to reach the sensor so that the interpolated data can remain as continuous as possible. Rays track the maximum relative distance it had with a lens component while tracing through the interface. This relative distance will be used in the pixel shader later to determine if a ray had left the interface.
 
-![](https://github.com/greje656/Questions/blob/master/images/trace-01.jpg)
+Relative distance visualized (Green = distance of 0. Red means a ray missed a lens component entirely during the trace).  
+![](https://github.com/greje656/Questions/blob/master/images/trace-03.jpg)
 
-![](https://github.com/greje656/Questions/blob/master/images/trace-02.jpg)
-
-Only if the ray misses the sphere formed by the radius of the lens do we break the raytracing routine. The idea behind this is to get as many traced points to reach the sensor so that the interpolated data can remain as continuous as possible. Rays track the maximum relative distance it had with a lens component while tracing through the interface. This relative distance will be used in the pixel shader later to determine if a ray had left the interface (i.e. the relative distance tracked is > 1).
-
-Secondly, a ray bundle carries a fixed amount of energy so it is important to consider the distortion of the bundle area that occurs while tracing them. In the paper, the author makes this small segment:
+Secondly, a ray bundle carries a fixed amount of energy so it is important to consider the distortion of the bundle area that occurs while tracing them. In In the paper, the author states:
 
 *"At each vertex, we store the average value of its surrounding neighbours. The regular grid of rays, combined with the transform feedback (or the stream-out) mechanism of modern graphics hardware, makes this lookup of neighbouring quad values very easy"*
 
@@ -52,7 +49,7 @@ I don't understand how the transform feedback, along with the available adjacenc
 
 ![](https://github.com/greje656/Questions/blob/master/images/lens-area.jpg)
 
-This works fairly well but is [expansive](https://github.com/greje656/PhysicallyBasedLensFlare/blob/master/Lens/lens.hlsl#L198). Something that I intend to improve in the future.
+This works fairly well but is [expensive](https://github.com/greje656/PhysicallyBasedLensFlare/blob/master/Lens/lens.hlsl#L198). Something that I intend to improve in the future.
 
 Now that we have a traced patch we need to make some sense out of it. The patch "as is" can look intimidating at first. Due to early exits of some rays the final vertices can sometimes look like something went terribly wrong:
 
@@ -153,11 +150,11 @@ AR Coating with offsetted thickness:
 
 Currently the full cost of the effect for a Nikon 28-75mm lens is xxxms. The performance degrades as the sun disk is made bigger since it results in more and more overshading during the rasterisation of each ghosts. With a simpler lens interface like the 1955 Angenieux the cost decreases significantly. In the current implementation every possible "two bounce ghost" is traced and drawn. For a lens system like the Nikon 28-75mm which has 27 lens components, that's n!/r!(n-r)! = 352 ghosts. It's easy to see that this number can [increase dramatically](https://www.desmos.com/calculator/rsrjo1mhy1) with the number of component.
 
-An obvious optimization would be to skip ghosts that have intensities so lows that their contributions are imperceptible. Using Compute/DrawIndirect it would be fairly simple to first run a coarse pass and use it to cull non contributing ghosts. This would reduce the compute and rasterization pressure on the gpu dramatically. Something I intend to do in future.
+An obvious optimization would be to skip ghosts that have intensities so low that their contributions are imperceptible. Using Compute/DrawIndirect it would be fairly simple to first run a coarse pass and use it to cull non contributing ghosts. This would reduce the compute and rasterization pressure on the gpu dramatically. Something I intend to do in future.
 
 ### Conclusion
 
-I'm not sure if this approach was ever used in a game. It would probably be hard to justify it's heavy cost. I feel this would have a better use case in the context of pre-visualization where a director might be interested in having early feeback on how a certain lens might behave in a shot.
+I'm not sure if this approach was ever used in a game. It would probably be hard to justify it's heavy cost. I feel this would have a better use case in the context of pre-visualization where a director might be interested in having early feedback on how a certain lens might behave in a shot.
 
 *[2016 Diesel Car and SUV Buyer's Guide](http://www.trucktrend.com/features/1509-2016-diesel-car-and-suv-buyers-guide/)*
 ![](https://github.com/greje656/Questions/blob/master/images/example01.jpg)
@@ -165,4 +162,4 @@ I'm not sure if this approach was ever used in a game. It would probably be hard
 *[Wallpapers Web](http://www.wallpapers-web.com/sunset-field-wallpapers/5485554.html/)*
 ![](https://github.com/greje656/Questions/blob/master/images/example02.jpg)
 
-Finally, I noticed that the author has filled a patent for the algorithm described above (which is really a bummer). So obviously one would need to contact him before using this method in a commercial context. 
+Finally, be aware the author has filled a patent for the algorithm described in his paper, which may put limits on how you may use parts of what is described in my post. Please contact the paper's author for more information on what restrictions might be in place.. 
