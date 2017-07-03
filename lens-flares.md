@@ -109,6 +109,10 @@ float3 color = intensity * input.reflectance.xyz * TemperatureToColor(INCOMING_L
 ~~~~
 
 ### Aperture
+
+*[The Vimeo Blog](https://vimeo.com/blog/post/f-stops-and-aperture)*
+![](https://github.com/greje656/Questions/blob/master/images/apertures3.jpg)
+
 The aperture shape is built procedurally. As suggested by [Padraic Hennessy's blog](https://placeholderart.wordpress.com/2015/01/19/implementation-notes-physically-based-lens-flares/) I use a signed distance field confined by "n" segments and threshold it against some distance value. I also experimented with approximating the light diffraction that occurs at the edge of the apperture blades using a [simple function](https://www.desmos.com/calculator/munv7q2ez3):
 
 ![](https://github.com/greje656/Questions/blob/master/images/apertures1.jpg)
