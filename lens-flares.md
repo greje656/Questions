@@ -18,7 +18,7 @@ All the code used to generate the images and videos of this article can can be f
 
 The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "bundles" into a lens system which will end up on a sensor to form a ghost. A ghost here refers to the de-focused light that reaches the sensor of a camera due to the light reflecting off the lenses. Since a camera lens is not typically made of a single optical lens but many lenses there can be many ghosts that form on it's sensor. If we only consider the ghosts that are formed from two bounces, that's a total of [nCr(n,2)](https://www.desmos.com/calculator/rsrjo1mhy1) possible ghosts [combinations](https://en.wikipedia.org/wiki/Combination) (where n is the number of lens components in a camera lens)
 
-![](https://github.com/greje656/Questions/blob/master/images/ghost01.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/ghost04.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/ghost02.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/ghost03.jpg)
 
@@ -52,7 +52,7 @@ I don't understand how the transform feedback, along with the available adjacenc
 
 This works fairly well but is [expensive](https://github.com/greje656/PhysicallyBasedLensFlare/blob/master/Lens/lens.hlsl#L198). Something that I intend to improve in the future.
 
-Now that we have a traced patch we need to make some sense out of it. The patch "as is" can look intimidating at first. Due to early exits of some rays the final vertices can sometimes look like something went terribly wrong:
+Now that we have a traced patch we need to make some sense out of it. The patch "as is" can look intimidating at first. Due to early exits of some rays the final vertices can sometimes look like something went terribly wrong. Here is a particularly distorted ghost:
 
 ![](https://github.com/greje656/Questions/blob/master/images/discard03.jpg)
 
