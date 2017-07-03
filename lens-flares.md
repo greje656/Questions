@@ -163,4 +163,4 @@ I'm not sure if this approach was ever used in a game. It would probably be hard
 *[Wallpapers Web](http://www.wallpapers-web.com/sunset-field-wallpapers/5485554.html/)*
 ![](https://github.com/greje656/Questions/blob/master/images/example02.jpg)
 
-Finally, be aware the author has filled a patent for the algorithm described in his paper, which may put limits on how you may use parts of what is described in my post. Please contact the paper's author for more information on what restrictions might be in place.. 
+Finally, be aware the author has filled a patent for the algorithm described in his paper, which may put limits on how you may use parts of what is described in my post. Please contact the paper's author for more information on what restrictions might be in place.
