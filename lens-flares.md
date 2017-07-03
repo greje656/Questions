@@ -29,8 +29,7 @@ Ok let's get into it. To trace rays in an optical system we obviously need to bu
 ![](https://github.com/greje656/Questions/blob/master/images/lens-description.jpg)
 
 There is no standard way of describing such systems. You may find all the information you need from a lens patent, but often (especially for older lenses) you end up staring at an old document that seems to be missing important information required for the algorithm. For example, the Russian lens MIR-1 apparently produces beautiful lens flare, but the only lens description I could find for it was this:
-
-http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf
+*[MIP.1B](http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf)*
 ![](https://github.com/greje656/Questions/blob/master/images/mir-1.jpg)
 
 ### Ray Tracing
@@ -160,12 +159,10 @@ An obvious optimization would be to skip ghosts that have intensities so lows th
 
 I'm not sure if this approach was ever used in a game. It would probably be hard to justify it's heavy cost. I feel this would have a better use case in the context of pre-visualization where a director might be interested in having early feeback on how a certain lens might behave in a shot.
 
-![](https://github.com/greje656/Questions/blob/master/images/example1.jpg)
+*[2016 Diesel Car and SUV Buyer's Guide](http://www.trucktrend.com/features/1509-2016-diesel-car-and-suv-buyers-guide/)*
+![](https://github.com/greje656/Questions/blob/master/images/example01.jpg)
 
-![](https://github.com/greje656/Questions/blob/master/images/example5.jpg)
-
-![](https://github.com/greje656/Questions/blob/master/images/example3.jpg)
-
-![](https://github.com/greje656/Questions/blob/master/images/example4.jpg)
+*[Wallpapers Web](http://www.wallpapers-web.com/sunset-field-wallpapers/5485554.html/)*
+![](https://github.com/greje656/Questions/blob/master/images/example02.jpg)
 
 Finally, I noticed that the author has filled a patent for the algorithm described above (which is really a bummer). So obviously one would need to contact him before using this method in a commercial context. 
