@@ -1,4 +1,4 @@
-# Lens Flare
+# Physically Based Lens Flare
 
 While playing Horizon Zero Dawn I got inspired by the lens flare they supported and decided to look into implementing some basic ones in Stingray. There were four types of flare I was particularly interested in.
 
