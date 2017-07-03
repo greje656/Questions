@@ -110,6 +110,8 @@ float3 color = intensity * input.reflectance.xyz * TemperatureToColor(INCOMING_L
 
 ### Aperture
 
+Test
+
 *[The Vimeo Blog](https://vimeo.com/blog/post/f-stops-and-aperture)*
 ![](https://github.com/greje656/Questions/blob/master/images/apertures3.jpg)
 
