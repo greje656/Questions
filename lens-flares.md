@@ -7,7 +7,7 @@ While playing Horizon Zero Dawn I got inspired by the lens flare they supported 
 4) Camera ghosts due to Sun or Moon (High quality)
 3) Camera ghosts due to all other light sources (Low quality)
 
-*[Die Hard](http://www.imdb.com/title/tt0095016/)* / *[Just Another Dang Blog](https://blog.lopau.com/uv-lens-and-night-photography/)* / *[PEXELS](https://www.pexels.com/photo/sunrise-sunset-lens-flare-6889/)* / *[The Matrix Reloaded](http://www.imdb.com/title/tt0234215/)*
+Examples 1) *[Die Hard](http://www.imdb.com/title/tt0095016/)* / 2) *[Just Another Dang Blog](https://blog.lopau.com/uv-lens-and-night-photography/)* / 3)*[PEXELS](https://www.pexels.com/photo/sunrise-sunset-lens-flare-6889/)* / 4) *[The Matrix Reloaded](http://www.imdb.com/title/tt0234215/)*
 ![](https://github.com/greje656/Questions/blob/master/images/intro.jpg)
 
 Once finished I'll do a follow up blog post on the Camera Lens Flare plugin, but for now I want to share the implementation details of the high-quality ghosts which are an implementation of ["Physically-Based Real-Time Lens Flare Rendering"](http://resources.mpi-inf.mpg.de/lensflareRendering).
