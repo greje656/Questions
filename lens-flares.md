@@ -157,8 +157,8 @@ An obvious optimization would be to skip ghosts that have intensities so low tha
 
 I'm not sure if this approach was ever used in a game. It would probably be hard to justify it's heavy cost. I feel this would have a better use case in the context of pre-visualization where a director might be interested in having early feedback on how a certain lens might behave in a shot.
 
-*[2016 Diesel Car and SUV Buyer's Guide](http://www.trucktrend.com/features/1509-2016-diesel-car-and-suv-buyers-guide/)*
-![](https://github.com/greje656/Questions/blob/master/images/example01.jpg)
+*[Wallup](http://wallup.net/car-sunset-lexus/)*
+![](https://github.com/greje656/Questions/blob/master/images/example03.jpg)
 
 *[Wallpapers Web](http://www.wallpapers-web.com/sunset-field-wallpapers/5485554.html/)*
 ![](https://github.com/greje656/Questions/blob/master/images/example02.jpg)
