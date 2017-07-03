@@ -20,7 +20,7 @@ The basic idea of the "Physically-Based Lens Flare" paper is to ray trace "bundl
 
 ![](https://github.com/greje656/Questions/blob/master/images/ghost04.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/ghost02.jpg)
-![](https://github.com/greje656/Questions/blob/master/images/ghost03.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/ghost01.jpg)
 
 ### Lens Interface Description
 
