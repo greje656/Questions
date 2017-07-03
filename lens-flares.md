@@ -4,8 +4,8 @@ While playing Horizon Zero Dawn I got inspired by the lens flare they supported 
 
 1) Anisomorphic flare
 2) Aperture diffraction (Starbursts)
-4) Camera ghosts due to Sun or Moon (High quality)
-3) Camera ghosts due to all other light sources (Low quality)
+4) Camera ghosts due to Sun or Moon (High Quality - What this post will cover)
+3) Camera ghosts due to all other light sources (Low Quality - Screen Space Effect)
 
 *[Die Hard](http://www.imdb.com/title/tt0095016/)* (1), *[Just Another Dang Blog](https://blog.lopau.com/uv-lens-and-night-photography/)* (2), *[PEXELS](https://www.pexels.com/photo/sunrise-sunset-lens-flare-6889/)* (3), *[The Matrix Reloaded](http://www.imdb.com/title/tt0234215/)* (4)
 ![](https://github.com/greje656/Questions/blob/master/images/intro.jpg)
