@@ -29,6 +29,7 @@ Ok let's get into it. To trace rays in an optical system we obviously need to bu
 ![](https://github.com/greje656/Questions/blob/master/images/lens-description.jpg)
 
 There is no standard way of describing such systems. You may find all the information you need from a lens patent, but often (especially for older lenses) you end up staring at an old document that seems to be missing important information required for the algorithm. For example, the Russian lens MIR-1 apparently produces beautiful lens flare, but the only lens description I could find for it was this:
+
 *[MIP.1B](http://allphotolenses.com/public/files/pdfs/ce6dd287abeae4f6a6716e27f0f82e41.pdf)*
 ![](https://github.com/greje656/Questions/blob/master/images/mir-1.jpg)
 
@@ -38,8 +39,8 @@ Once you have parsed your lens description into something your trace algorithm c
 
 First, when a ray misses a lens component the raytracing routine isn't necessarily stopped. Instead if the ray can continue with a path that is meaningful the ray trace continues until it reaches the sensor. Only if the ray misses the sphere formed by the radius of the lens do we break the raytracing routine. The idea behind this is to get as many traced points to reach the sensor so that the interpolated data can remain as continuous as possible. Rays track the maximum relative distance it had with a lens component while tracing through the interface. This relative distance will be used in the pixel shader later to determine if a ray had left the interface.
 
-Relative distance visualized (Green = distance of 0. Red means a ray missed a lens component entirely during the trace).  
-![](https://github.com/greje656/Questions/blob/master/images/trace-03.jpg)
+*Relative distance visualized (Green = distance of 0. Red means a ray missed a lens component entirely during the trace)*  
+![](https://github.com/greje656/Questions/blob/master/images/trace-04.jpg)
 
 Secondly, a ray bundle carries a fixed amount of energy so it is important to consider the distortion of the bundle area that occurs while tracing them. In In the paper, the author states:
 
