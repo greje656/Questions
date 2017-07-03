@@ -39,8 +39,8 @@ Once you have parsed your lens description into something your trace algorithm c
 
 First, when a ray misses a lens component the raytracing routine isn't necessarily stopped. Instead if the ray can continue with a path that is meaningful the ray trace continues until it reaches the sensor. Only if the ray misses the sphere formed by the radius of the lens do we break the raytracing routine. The idea behind this is to get as many traced points to reach the sensor so that the interpolated data can remain as continuous as possible. Rays track the maximum relative distance it had with a lens component while tracing through the interface. This relative distance will be used in the pixel shader later to determine if a ray had left the interface.
 
-*Relative distance visualized (green = distance of 0. red means ray missed lens component)*  
-![](https://github.com/greje656/Questions/blob/master/images/trace-04.jpg)
+*Relative distance visualized as green/orange gradient (black means ray missed lens component completely).*  
+![](https://github.com/greje656/Questions/blob/master/images/trace-05.jpg)
 
 Secondly, a ray bundle carries a fixed amount of energy so it is important to consider the distortion of the bundle area that occurs while tracing them. In In the paper, the author states:
 
@@ -163,4 +163,4 @@ I'm not sure if this approach was ever used in a game. It would probably be hard
 *[Wallpapers Web](http://www.wallpapers-web.com/sunset-field-wallpapers/5485554.html/)*
 ![](https://github.com/greje656/Questions/blob/master/images/example02.jpg)
 
-Finally, be aware the author has filled a patent for the algorithm described in his paper, which may put limits on how you may use parts of what is described in my post. Please contact the paper's author for more information on what restrictions might be in place.
+Finally, be aware the author has filled a patent for the algorithm described in his paper, which may put limits on how you may use parts of what is described in my post. Please contact the [paper's author](http://resources.mpi-inf.mpg.de/lensflareRendering/) for more information on what restrictions might be in place.
