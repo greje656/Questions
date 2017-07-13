@@ -1,9 +1,12 @@
 # Validating materials and lights #
-Stingray 1.9 is just around the cornder and with it will come our new physical lights. I wanted to write a little bit about the validation process that we went through to increase our confidence into the first the beaviour of our standard material, and second the physical lights themselves.
+Stingray 1.9 is just around the corner and with it will come our new physical lights. I wanted to write a little bit about the validation process that we went through to increase our confidence in the behaviour of our standard material and physical lights.
 
-Early on we we're quite set on building a small light room similar to what the Fox Engine team presented at GDC in 2013. But while this seems like a fantastic way to validate that the entire pipeline is giving good results, it felt like identifying the source of deltas when comparing photographs vs renders might involve a lot of guess work. So we decided to delay the validation process through a light room and started thinking about comparing our material with another validated renderer. Since Arnold joined Autodesk last year and that we had access to a license server it seemed like a good condidate to move forward with. Btw, the Arnold SDK is extremely easy to use and can be downloaded for free at https://www.solidangle.com/arnold/download. If you don't have a license you still have access to all features and the only limitation is that the rendered frames are watermarked. 
+Early on we were quite set on building a small light room similar to what the Fox Engine team presented at GDC in 2013 as a validation process. But while this seemed like a fantastic way to validate the entire pipeline is giving plausible results, it felt like identifying the source of discontinuities when comparing photographs vs renders might involve a lot of guess work. So we decided to delay the validation process through a light room and started thinking about comparing our values with another high quality renderer. Since Arnold joined Autodesk last year and that we had access to a license server it seemed like a very good candidate. Small note on Arnold: the Arnold SDK is extremely easy to use and can be downloaded for free at https://www.solidangle.com/arnold/download. If you don't have a license you still have access to all the features and the only limitation is that the rendered frames are watermarked. 
 
-So we started writting a simple Stingray plugin that supported some simple scene reflection into Arnold. We also implemented a simple custom Arnold display driver which allowed us to forward the rendered tiles directly into a stingray texture resource. The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work Arnold 5.0 was not out yet, and the Arnold's Standard surface shader didn't map very well to the Metallicness/Roughness model. We had more luck using http://www.anderslanglands.com/alshaders/alSurface.html:
+We started writing a Stingray plugin that supported simple scene reflection into Arnold. We also implemented a simple custom Arnold display driver which allowed us to forward the rendered tiles directly into the stingray viewport.
+
+### Material mapping ###
+The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's "Standard" shader didn't map very well to the Metallicness/Roughness model. We had more luck using http://www.anderslanglands.com/alshaders/alSurface.html:
 
 // "alSurface"
 // ==============================================================================================
@@ -25,7 +28,7 @@ AiNodeSetFlt(surface_shader, "specular2Roughness", roughness);
 AiNodeSetRGB(surface_shader, "specular2Reflectivity", white.x, white.y, white.z);
 AiNodeSetRGB(surface_shader, "specular2EdgeTint", white.x, white.y, white.z);
 
- Halfway through though Arnold 5.0 got announced and with it came a new surface shader called "standard_surface" which is based on a Metalness/Roughness workflow (https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0). This allowed for a much simpler mapping than with the AlSurface shader:
+ Halfway through our validation process Arnold 5.0 got released and with it came a new surface shader called "standard_surface" which is based on a Metalness/Roughness workflow (https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0). This allowed for a much simpler mapping:
 
 // "standard_surface"
 // ==============================================================================================
@@ -39,10 +42,13 @@ AiNodeSetRGB(standard_shader, "specular_color", 1, 1, 1);
 AiNodeSetFlt(standard_shader, "specular_roughness", roughness);
 AiNodeSetFlt(standard_shader, "metalness", metallic);
 
-#Brdf validation
-Finally we could tonemap the Arnold linear data with our own tonemapper which minimised the source of potential deltas between our results and Arnolds.
+Finally we would tonemap the Arnold linear data with our own tonemapper directly in Stingray which minimized the source of potential deltas between our results and Arnolds.
 
-With that at hand we could start to reason about deltas. The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports light path expressions (https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the fresnel and diffuse terms:
+With that at hand we could start to compare renders!
+
+
+
+The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports light path expressions (https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the fresnel and diffuse terms:
 
 The second thing we notice is that different materials treated the fresnel term of metals in two different ways: tinted or untinted:
 
