@@ -62,9 +62,15 @@ With scenes with a lot of smooth reflective surfaces, the impact can be quite no
 ![Imgur](images/fixa.gif)
 ![Imgur](images/fixb.gif)
 
-The second thing we notice is that different materials treated the fresnel term of metals in two different ways: tinted or untinted:
+Another source of deltas (and confusion) came from the tint of the fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I've looked into:
 
-It wasn't clear to me how the reflectivity of different wavelengths metals behaved for conductors especially as the incidance angle increased. I was convinced by (twitter user) that even though metals can completly absorb some wavelengths that "The reflectivity of all wavelengths still goes to 1 as the incidance angle increases". Since our real time solution relies on a pre filtered fresnell offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness from" https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0)
+![Imgur](images/metal3.jpg)
+
+It wasn't clear to me how Fresnel's law of reflectivity applied to metals. Following a post on Twitter Brooke Hodgman made an elegant statement claiming "Metalic reflections are coloured because their Fresnel is wavelength varying, but Fresnel still goes to 1 at 90deg for every wavelength". I later found a [graph ]([found](https://en.wikipedia.org/wiki/Reflectance) which confirmed exactly that: 
+
+![Imgur](images/reflectance.jpg)
+
+Since our real time solution relies on a pre filtered fresnell offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness from" https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0)
 
 With the brdf validated we could start looking into validating our Physical Lights. We currently support point lights, spotlights and directional lights (with more to come). The main problem that we discovered here is that the fall off equation we use is a bit awkward. We use 1/(d+1)^2 as opposed to 1/d^2. The main reason behind this decision is to manage the overflow that could occur in the light accumulation buffer (note how the intensity values can't shoot to infinity as distance approaches zero). Unfortunatly this decision also means we can't get physically correct light falloffs in a scene. This is something we are considering revisiting. Using something like 2/(d+e)^2 where e is 1/max_value along with ev shifts up and down while writting and reading from the accumulation buffer (as described by Nathan Reed http://www.reedbeta.com/blog/artist-friendly-hdr-with-exposure-values/) could be a good step forward.
 
