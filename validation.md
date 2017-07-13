@@ -30,6 +30,10 @@ AiNodeSetRGB(surface_shader, "specular2Reflectivity", white.x, white.y, white.z)
 AiNodeSetRGB(surface_shader, "specular2EdgeTint", white.x, white.y, white.z);
 ~~~~
 
+![Imgur](images/res1.jpg)
+![Imgur](images/res2.jpg)
+![Imgur](images/res3.jpg)
+
 Halfway through our validation process Arnold 5.0 got released and with it came the new [Standard Surface shader](https://support.solidangle.com/display/A5AFMUG/Standard+Surface) which is based on a Metalness/Roughness workflow. This allowed for a much simpler mapping:
 
 ~~~~
