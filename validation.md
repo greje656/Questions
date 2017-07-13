@@ -62,11 +62,11 @@ With scenes with a lot of smooth reflective surfaces, the impact can be quite no
 ![Imgur](images/fixa.gif)
 ![Imgur](images/fixb.gif)
 
-Another source of deltas (and confusion) came from the tint of the fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I've looked into:
+Another source of differences and confusion came from the tint of the fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I had looked into (not the tint of the fresnel reflection at the edge):
 
 ![Imgur](images/metal3.jpg)
 
-It wasn't clear to me how Fresnel's law of reflectivity applied to metals. Following a post on Twitter Brooke Hodgman made an elegant statement claiming "Metalic reflections are coloured because their Fresnel is wavelength varying, but Fresnel still goes to 1 at 90deg for every wavelength". I later found a [graph ]([found](https://en.wikipedia.org/wiki/Reflectance) which confirmed exactly that: 
+It wasn't clear to me how Fresnel's law of reflectivity applied to metals. Following a post on Twitter Brooke Hodgman made an elegant statement claiming "Metalic reflections are coloured because their Fresnel is wavelength varying, but Fresnel still goes to 1 at 90deg for every wavelength". I later found a [graph](https://en.wikipedia.org/wiki/Reflectance) which confirmed exactly that: 
 
 ![Imgur](images/reflectance.jpg)
 
