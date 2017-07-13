@@ -78,7 +78,7 @@ With the brdf validated we could start looking into validating our physical ligh
 
 ![](images/graph.gif)
 
-So even if we scale the intensity of the light to match the intensity for a certain distance (say 1m) we still have a different falloff curve than the physically correct attenuation. It's not too bad in a game context, but in the architectural world this is a be a big issue:
+So even if we scale the intensity of the light to match the intensity for a certain distance (say 1m) we still have a different falloff curve than the physically correct attenuation. It's not too bad in a game context, but in the architectural world this is a bigger issue:
 
 ![](images/fix-int5.gif)
 
