@@ -56,7 +56,10 @@ AiNodeSetFlt(standard_shader, "metalness", metallic);
 The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports light path expressions (https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the fresnel and diffuse terms:
 
 ![Imgur](images/fix1.jpg)
-![Imgur](images/fix2.jpg)
+
+And here is the fix in the context of a scene with a lot of smooth specular surfaces:
+![Imgur](images/fix3.jpg)
+
 
 The second thing we notice is that different materials treated the fresnel term of metals in two different ways: tinted or untinted:
 
