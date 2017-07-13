@@ -70,7 +70,7 @@ It wasn't clear to me how Fresnel's law of reflectivity applied to metals. Follo
 
 ![Imgur](images/reflectance.jpg)
 
-Since our real time solution relies on a pre filtered fresnell offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness from" https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0)
+Since our real time solution relies on a pre filtered fresnell offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness" from Zap Andeson's [Physical Material Whitepaper](https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0))
 
 With the brdf validated we could start looking into validating our Physical Lights. We currently support point lights, spotlights and directional lights (with more to come). The main problem that we discovered here is that the fall off equation we use is a bit awkward. We use 1/(d+1)^2 as opposed to 1/d^2. The main reason behind this decision is to manage the overflow that could occur in the light accumulation buffer (note how the intensity values can't shoot to infinity as distance approaches zero). Unfortunatly this decision also means we can't get physically correct light falloffs in a scene. This is something we are considering revisiting. Using something like 2/(d+e)^2 where e is 1/max_value along with ev shifts up and down while writting and reading from the accumulation buffer (as described by Nathan Reed http://www.reedbeta.com/blog/artist-friendly-hdr-with-exposure-values/) could be a good step forward.
 
