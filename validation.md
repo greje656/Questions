@@ -8,6 +8,7 @@ We started writing a Stingray plugin that supported simple scene reflection into
 ### Material mapping ###
 The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's "Standard" shader didn't map very well to the Metallicness/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html):
 
+~~~~
 // "alSurface"
 // ==============================================================================================
 AiNodeSetRGB(surface_shader, "diffuseColor", color.x, color.y, color.z);
@@ -27,6 +28,7 @@ AiNodeSetRGB(surface_shader, "specular2Color", color.x, color.y, color.z);
 AiNodeSetFlt(surface_shader, "specular2Roughness", roughness);
 AiNodeSetRGB(surface_shader, "specular2Reflectivity", white.x, white.y, white.z);
 AiNodeSetRGB(surface_shader, "specular2EdgeTint", white.x, white.y, white.z);
+~~~~
 
  Halfway through our validation process Arnold 5.0 got released and with it came a new surface shader called "standard_surface" which is based on a Metalness/Roughness workflow (https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0). This allowed for a much simpler mapping:
 
