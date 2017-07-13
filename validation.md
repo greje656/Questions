@@ -6,7 +6,7 @@ Early on we were quite set on building a small light room similar to what the Fo
 We started writing a Stingray plugin that supported simple scene reflection into Arnold. We also implemented a simple custom Arnold display driver which allowed us to forward the rendered tiles directly into the stingray viewport.
 
 ### Material mapping ###
-The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's "Standard" shader didn't map very well to the Metallicness/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html):
+The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's [Standard shader](https://support.solidangle.com/display/AFMUG/Standard) didn't map very well to the Metallic/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html) with the following mapping:
 
 ~~~~
 // "alSurface"
@@ -30,8 +30,9 @@ AiNodeSetRGB(surface_shader, "specular2Reflectivity", white.x, white.y, white.z)
 AiNodeSetRGB(surface_shader, "specular2EdgeTint", white.x, white.y, white.z);
 ~~~~
 
- Halfway through our validation process Arnold 5.0 got released and with it came a new surface shader called "standard_surface" which is based on a Metalness/Roughness workflow (https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0). This allowed for a much simpler mapping:
+Halfway through our validation process Arnold 5.0 got released and with it came the new [Standard Surface shader](https://support.solidangle.com/display/A5AFMUG/Standard+Surface) which is based on a Metalness/Roughness workflow. This allowed for a much simpler mapping:
 
+~~~~
 // "standard_surface"
 // ==============================================================================================
 AiNodeSetFlt(standard_shader, "base", 1.f);
@@ -43,6 +44,7 @@ AiNodeSetFlt(standard_shader, "specular_IOR", 1.5f); // solving ior = (n-1)^2/(n
 AiNodeSetRGB(standard_shader, "specular_color", 1, 1, 1);
 AiNodeSetFlt(standard_shader, "specular_roughness", roughness);
 AiNodeSetFlt(standard_shader, "metalness", metallic);
+~~~~
 
 Finally we would tonemap the Arnold linear data with our own tonemapper directly in Stingray which minimized the source of potential deltas between our results and Arnolds.
 
