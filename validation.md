@@ -7,7 +7,7 @@ We started writing a Stingray plugin that supported simple scene reflection into
 
 
 ### Material parameters mapping ###
-The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's [Standard shader](https://support.solidangle.com/display/AFMUG/Standard) didn't map very well to the Metallic/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html) with the following mapping:
+The trickiest part of the process was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's [Standard shader](https://support.solidangle.com/display/AFMUG/Standard) didn't map very well to the Metallic/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html) with the following mapping:
 
 ~~~~
 // "alSurface"
@@ -62,7 +62,7 @@ With scenes with a lot of smooth reflective surfaces, the impact can be quite no
 ![](images/fixa.gif)
 ![](images/fixb.gif)
 
-Another source of differences and confusion came from the tint of the fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I had looked into (not the tint of the fresnel reflection at the edge):
+Another source of differences and confusion came from the tint of the fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I had looked into (note the tint of the fresnel reflection at the edge):
 
 ![](images/metal3.jpg)
 
