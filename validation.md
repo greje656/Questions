@@ -78,6 +78,8 @@ With the brdf validated we could start looking into validating our physical ligh
 
 ![Imgur](images/graph.gif)
 
+![Imgur](images/fix-int1.gif)
+
 This is something we are considering revisiting. Using something like 2/(d+e)^2 where e is 1/max_value along with ev shifts up and down while writting and reading from the accumulation buffer (as described by Nathan Reed http://www.reedbeta.com/blog/artist-friendly-hdr-with-exposure-values/) could be a good step forward.
 
 Finally we were also able to validate our ies lights and color temperature:
