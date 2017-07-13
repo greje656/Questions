@@ -3,7 +3,8 @@ Stingray 1.9 is just around the corner and with it will come our new physical li
 
 Early on we were quite set on building a small light room similar to what the [Fox Engine team presented at GDC](https://youtu.be/FQMbxzTUuSg?t=19m25s) as a validation process. But while this seemed like a fantastic way to validate the entire pipeline is giving plausible results, it felt like identifying the source of discontinuities when comparing photographs vs renders might involve a lot of guess work. So we decided to delay the validation process through a light room and started thinking about comparing our values with another high quality renderer. Since Arnold joined Autodesk last year and that we had access to a license server it seemed like a very good candidate. Small note on Arnold: the Arnold SDK is extremely easy to use and can be [downloaded](https://www.solidangle.com/arnold/download) for free. If you don't have a license you still have access to all the features and the only limitation is that the rendered frames are watermarked. 
 
-We started writing a Stingray plugin that supported simple scene reflection into Arnold. We also implemented a simple custom Arnold display driver which allowed us to forward the rendered tiles directly into the stingray viewport.
+We started writing a Stingray plugin that supported simple scene reflection into Arnold. We also implemented a simple custom Arnold display driver which allowed us to forward the linear rendered tiles directly into the stingray viewport. This allowed us to tonemap and view renders directly into the Stingray viewport which minimized the source of potential errors between ours and Arnold's results.
+
 
 ### Material parameters mapping ###
 The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's [Standard shader](https://support.solidangle.com/display/AFMUG/Standard) didn't map very well to the Metallic/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html) with the following mapping:
@@ -29,8 +30,6 @@ AiNodeSetFlt(surface_shader, "specular2Roughness", roughness);
 AiNodeSetRGB(surface_shader, "specular2Reflectivity", white.x, white.y, white.z);
 AiNodeSetRGB(surface_shader, "specular2EdgeTint", white.x, white.y, white.z);
 ~~~~
-
-Finally we would tonemap the Arnold linear data with our own tonemapper directly in Stingray which minimized the source of potential deltas between our results and Arnolds. With that at hand we could start to compare renders:
 
 ![](images/res1.jpg)
 ![](images/res3.jpg)
