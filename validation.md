@@ -70,7 +70,9 @@ It wasn't clear to me how Fresnel's law of reflectivity applied to metals. Follo
 
 ![](images/reflectance.jpg)
 
-Since our real time solution relies on a pre filtered Fresnel offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness" from Zap Andeson's [Physical Material Whitepaper](https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0) for more detail).
+Since our real time solution relies on a pre filtered Fresnel offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness" from Zap Andeson's [Physical Material Whitepaper](https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0) for more detail), but we do have an un-tinted Fresnel offset even for metallic surfaces:
+
+![](images/metal4.jpg)
 
 ### Investigating light differences ###
 
