@@ -32,8 +32,8 @@ AiNodeSetRGB(surface_shader, "specular2EdgeTint", white.x, white.y, white.z);
 
 Finally we would tonemap the Arnold linear data with our own tonemapper directly in Stingray which minimized the source of potential deltas between our results and Arnolds. With that at hand we could start to compare renders:
 
-![Imgur](images/res1.jpg)
-![Imgur](images/res3.jpg)
+![](images/res1.jpg)
+![](images/res3.jpg)
 
 Halfway through our validation process Arnold 5.0 got released and with it came the new [Standard Surface shader](https://support.solidangle.com/display/A5AFMUG/Standard+Surface) which is based on a Metalness/Roughness workflow. This allowed for a much simpler mapping:
 
@@ -55,20 +55,20 @@ AiNodeSetFlt(standard_shader, "metalness", metallic);
 
 The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports light path expressions (https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the fresnel and diffuse terms:
 
-![Imgur](images/fix1.jpg)
+![](images/fix1.jpg)
 
 With scenes with a lot of smooth reflective surfaces, the impact can be quite noticable:
-![Imgur](images/fixc.gif)
-![Imgur](images/fixa.gif)
-![Imgur](images/fixb.gif)
+![](images/fixc.gif)
+![](images/fixa.gif)
+![](images/fixb.gif)
 
 Another source of differences and confusion came from the tint of the fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I had looked into (not the tint of the fresnel reflection at the edge):
 
-![Imgur](images/metal3.jpg)
+![](images/metal3.jpg)
 
 It wasn't clear to me how Fresnel's law of reflectivity applied to metals. Following a post on Twitter Brooke Hodgman made an elegant statement claiming "Metalic reflections are coloured because their Fresnel is wavelength varying, but Fresnel still goes to 1 at 90deg for every wavelength". I later found a [graph](https://en.wikipedia.org/wiki/Reflectance) which confirmed exactly that: 
 
-![Imgur](images/reflectance.jpg)
+![](images/reflectance.jpg)
 
 Since our real time solution relies on a pre filtered fresnell offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness" from Zap Andeson's [Physical Material Whitepaper](https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0) for more detail).
 
@@ -76,10 +76,10 @@ Since our real time solution relies on a pre filtered fresnell offset stored in 
 
 With the brdf validated we could start looking into validating our physical lights. Stingray currently supports point, spot, and directional lights (with more to come). The main problem that we discovered with our lights is that the attenuation function we've been using is a bit awkward. Specifically we use 1/(d+1)^2 as opposed to 1/d^2. The main reason behind this decision is to manage the overflow that could occur in the light accumulation buffer. Adding the +1 effectively clamps the maximum value intensity of the light as the value set on the light itself. Unfortunatly this decision also means we can't get physically [correct light falloffs](https://www.desmos.com/calculator/jydb51epow) in a scene:
 
-![Imgur](images/graph.gif)
+![](images/graph.gif)
 
 So even if we scale the intensity of the light to match the intensity for a certain distance (say 1m) we still have a different falloff curve than the physically correct attenuation. It's not too bad in a game context, but in the architectural world this is a be a bigger issue:
-![Imgur](images/fix-int2.jpg)
+![](images/fix-int2.jpg)
 
 This is something we are considering revisiting. Using something like 2/(d+e)^2 where e is 1/max_value along with ev shifts up and down while writting and reading from the accumulation buffer (as described by Nathan Reed http://www.reedbeta.com/blog/artist-friendly-hdr-with-exposure-values/) could be a good step forward.
 
