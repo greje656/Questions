@@ -5,7 +5,7 @@ Early on we were quite set on building a small light room similar to what the Fo
 
 We started writing a Stingray plugin that supported simple scene reflection into Arnold. We also implemented a simple custom Arnold display driver which allowed us to forward the rendered tiles directly into the stingray viewport.
 
-### Material mapping ###
+### Material Mapping ###
 The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's [Standard shader](https://support.solidangle.com/display/AFMUG/Standard) didn't map very well to the Metallic/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html) with the following mapping:
 
 ~~~~
@@ -30,8 +30,9 @@ AiNodeSetRGB(surface_shader, "specular2Reflectivity", white.x, white.y, white.z)
 AiNodeSetRGB(surface_shader, "specular2EdgeTint", white.x, white.y, white.z);
 ~~~~
 
+Finally we would tonemap the Arnold linear data with our own tonemapper directly in Stingray which minimized the source of potential deltas between our results and Arnolds. With that at hand we could start to compare renders:
+
 ![Imgur](images/res1.jpg)
-![Imgur](images/res2.jpg)
 ![Imgur](images/res3.jpg)
 
 Halfway through our validation process Arnold 5.0 got released and with it came the new [Standard Surface shader](https://support.solidangle.com/display/A5AFMUG/Standard+Surface) which is based on a Metalness/Roughness workflow. This allowed for a much simpler mapping:
@@ -50,11 +51,7 @@ AiNodeSetFlt(standard_shader, "specular_roughness", roughness);
 AiNodeSetFlt(standard_shader, "metalness", metallic);
 ~~~~
 
-Finally we would tonemap the Arnold linear data with our own tonemapper directly in Stingray which minimized the source of potential deltas between our results and Arnolds.
-
-With that at hand we could start to compare renders!
-
-
+### Investigating the differences ###
 
 The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports light path expressions (https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the fresnel and diffuse terms:
 
