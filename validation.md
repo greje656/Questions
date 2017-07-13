@@ -58,7 +58,7 @@ The first thing we noticed is an excess in reflection intensity for reflections 
 ![Imgur](images/fix1.jpg)
 
 And here is the fix in the context of a scene with a lot of smooth specular surfaces:
-![Imgur](images/fix3.jpg)
+![Imgur](images/fix3.gif)
 
 
 The second thing we notice is that different materials treated the fresnel term of metals in two different ways: tinted or untinted:
