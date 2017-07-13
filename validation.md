@@ -87,7 +87,7 @@ This is something we are considering fixing. Using something like 2/(d+e)^2 wher
 
 Finally we were also able to validate our ies lights and color temperature:
 
-![](images/ies.gif)
+![](images/ies2.gif)
 
 Integrating an high quality offline renderer like Arnold has proven invaluable in the process of validating our lights in Stingray. There are many other features where this could be helpfull:
 
