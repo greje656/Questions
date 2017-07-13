@@ -52,7 +52,7 @@ AiNodeSetFlt(standard_shader, "metalness", metallic);
 
 ### Investigating material differences ###
 
-The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports [light path expressions](https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the fresnel and diffuse terms:
+The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports [light path expressions](https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the Fresnel and diffuse terms:
 
 ![](images/fix1.jpg)
 
@@ -62,7 +62,7 @@ With scenes with a lot of smooth reflective surfaces, the impact can be quite no
 ![](images/fixa.gif)
 ![](images/fixb.gif)
 
-Another source of differences and confusion came from the tint of the fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I had looked into (note the tint of the fresnel reflection at the edge):
+Another source of differences and confusion came from the tint of the Fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I had looked into (note the tint of the Fresnel reflection at the edge):
 
 ![](images/metal3.jpg)
 
@@ -70,7 +70,7 @@ It wasn't clear to me how Fresnel's law of reflectivity applied to metals. Follo
 
 ![](images/reflectance.jpg)
 
-Since our real time solution relies on a pre filtered fresnell offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness" from Zap Andeson's [Physical Material Whitepaper](https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0) for more detail).
+Since our real time solution relies on a pre filtered Fresnel offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness" from Zap Andeson's [Physical Material Whitepaper](https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0) for more detail).
 
 ### Investigating light differences ###
 
