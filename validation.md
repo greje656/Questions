@@ -74,15 +74,15 @@ Since our real time solution relies on a pre filtered Fresnel offset stored in a
 
 ### Investigating light differences ###
 
-With the brdf validated we could start looking into validating our physical lights. Stingray currently supports point, spot, and directional lights (with more to come). The main problem that we discovered with our lights is that the attenuation function we've been using is a bit awkward. Specifically we use 1/(d+1)^2 as opposed to 1/d^2. The main reason behind this decision is to manage the overflow that could occur in the light accumulation buffer. Adding the +1 effectively clamps the maximum value intensity of the light as the value set on the light itself. Unfortunatly this decision also means we can't get physically [correct light falloffs](https://www.desmos.com/calculator/jydb51epow) in a scene:
+With the brdf validated we could start looking into validating our physical lights. Stingray currently supports point, spot, and directional lights (with more to come). The main problem that we discovered with our lights is that the attenuation function we've been using is a bit awkward. Specifically we attenuate by I/(d+1)^2 as opposed to I/d^2 (Where 'I' is the intensity of the light source and d is the distance to the light source at the shaded point). The main reason behind this decision is to manage the overflow that could occur in the light accumulation buffer. Adding the +1 effectively clamps the maximum value intensity of the light as the intensity set for that light itself i.e. 'I' doesn't approach infinity as 'd' gets smaller. Unfortunatly this decision also means we can't get physically [correct light falloffs](https://www.desmos.com/calculator/jydb51epow) in a scene:
 
 ![](images/graph.gif)
 
-So even if we scale the intensity of the light to match the intensity for a certain distance (say 1m) we still have a different falloff curve than the physically correct attenuation. It's not too bad in a game context, but in the architectural world this is a be a bigger issue:
+So even if we scale the intensity of the light to match the intensity for a certain distance (say 1m) we still have a different falloff curve than the physically correct attenuation. It's not too bad in a game context, but in the architectural world this is a be a big issue:
 
 ![](images/fix-int5.gif)
 
-This is something we are considering fixing. Using something like 2/(d+e)^2 where e is 1/max_value along with an EV shift up and down while writting and reading from the accumulation buffer as described by [Nathan Reed](http://www.reedbeta.com/blog/artist-friendly-hdr-with-exposure-values/)  could be a good step forward.
+We are considering fixing this in the future. Using I/(d+e)^2 (where 'e' is 1/max_value along) with an EV shift up and down while writting and reading from the accumulation buffer as described by [Nathan Reed](http://www.reedbeta.com/blog/artist-friendly-hdr-with-exposure-values/) could be a good step forward.
 
 Finally we were also able to validate our ies lights and color temperature:
 
