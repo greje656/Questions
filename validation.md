@@ -58,6 +58,7 @@ The first thing we noticed is an excess in reflection intensity for reflections 
 ![](images/fix1.jpg)
 
 With scenes with a lot of smooth reflective surfaces, the impact can be quite noticable:
+
 ![](images/fixc.gif)
 ![](images/fixa.gif)
 ![](images/fixb.gif)
@@ -79,6 +80,7 @@ With the brdf validated we could start looking into validating our physical ligh
 ![](images/graph.gif)
 
 So even if we scale the intensity of the light to match the intensity for a certain distance (say 1m) we still have a different falloff curve than the physically correct attenuation. It's not too bad in a game context, but in the architectural world this is a be a bigger issue:
+
 ![](images/fix-int2.jpg)
 
 This is something we are considering revisiting. Using something like 2/(d+e)^2 where e is 1/max_value along with ev shifts up and down while writting and reading from the accumulation buffer (as described by Nathan Reed http://www.reedbeta.com/blog/artist-friendly-hdr-with-exposure-values/) could be a good step forward.
