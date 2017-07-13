@@ -91,8 +91,8 @@ Finally we were also able to validate our ies lights and color temperature:
 
 ### Results and final thoughts ###
 
-![](images/comp1.gif)
-![](images/comp2.gif)
+![](images/compa.gif)
+![](images/compb.gif)
 
 Integrating an high quality offline renderer like Arnold has proven invaluable in the process of validating our lights in Stingray. A similar validation process could be applicable to many other aspects of our rendering pipeline (antialiasing, post-effects, volumetrics, ect)
 
