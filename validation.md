@@ -1,11 +1,11 @@
-# Validating materials and lights #
+# Validating materials and lights in Stingray #
 Stingray 1.9 is just around the corner and with it will come our new physical lights. I wanted to write a little bit about the validation process that we went through to increase our confidence in the behaviour of our standard material and physical lights.
 
 Early on we were quite set on building a small light room similar to what the Fox Engine team presented at GDC in 2013 as a validation process. But while this seemed like a fantastic way to validate the entire pipeline is giving plausible results, it felt like identifying the source of discontinuities when comparing photographs vs renders might involve a lot of guess work. So we decided to delay the validation process through a light room and started thinking about comparing our values with another high quality renderer. Since Arnold joined Autodesk last year and that we had access to a license server it seemed like a very good candidate. Small note on Arnold: the Arnold SDK is extremely easy to use and can be [downloaded](https://www.solidangle.com/arnold/download) for free. If you don't have a license you still have access to all the features and the only limitation is that the rendered frames are watermarked. 
 
 We started writing a Stingray plugin that supported simple scene reflection into Arnold. We also implemented a simple custom Arnold display driver which allowed us to forward the rendered tiles directly into the stingray viewport.
 
-### Material Mapping ###
+### Material parameters mapping ###
 The trickiest part of the reflection was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's [Standard shader](https://support.solidangle.com/display/AFMUG/Standard) didn't map very well to the Metallic/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html) with the following mapping:
 
 ~~~~
@@ -55,11 +55,12 @@ AiNodeSetFlt(standard_shader, "metalness", metallic);
 
 The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports light path expressions (https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the fresnel and diffuse terms:
 
+![Imgur](images/fix1.jpg)
+![Imgur](images/fix2.jpg)
+
 The second thing we notice is that different materials treated the fresnel term of metals in two different ways: tinted or untinted:
 
 It wasn't clear to me how the reflectivity of different wavelengths metals behaved for conductors especially as the incidance angle increased. I was convinced by (twitter user) that even though metals can completly absorb some wavelengths that "The reflectivity of all wavelengths still goes to 1 as the incidance angle increases". Since our real time solution relies on a pre filtered fresnell offset stored in a lut we get results that are slightly different from Arnold's standard_surface (see "the effect of metalness from" https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0)
-
-#Light validation
 
 With the brdf validated we could start looking into validating our Physical Lights. We currently support point lights, spotlights and directional lights (with more to come). The main problem that we discovered here is that the fall off equation we use is a bit awkward. We use 1/(d+1)^2 as opposed to 1/d^2. The main reason behind this decision is to manage the overflow that could occur in the light accumulation buffer (note how the intensity values can't shoot to infinity as distance approaches zero). Unfortunatly this decision also means we can't get physically correct light falloffs in a scene. This is something we are considering revisiting. Using something like 2/(d+e)^2 where e is 1/max_value along with ev shifts up and down while writting and reading from the accumulation buffer (as described by Nathan Reed http://www.reedbeta.com/blog/artist-friendly-hdr-with-exposure-values/) could be a good step forward.
 
