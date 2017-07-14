@@ -61,7 +61,7 @@ Scenes with a lot of smooth reflective surfaces demonstrates the impact of this 
 ![](images/fixa.gif)
 ![](images/fixb.gif)
 
-Another source of differences and confusion came from the tint of the Fresnel term for metallic surfaces. Here are the behaviors of a few surface shaders I had looked into (note the tint of the Fresnel reflection at the edge):
+Another source of differences and confusion came from the tint of the Fresnel term for metallic surfaces. Different shaders I investigaed had different behaviors. Some tinted the Fresnel term with the base color while some others didn't:
 
 ![](images/metal3.jpg)
 
