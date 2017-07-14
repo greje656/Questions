@@ -42,7 +42,7 @@ Stingray VS Arnold: metallicness = 1, roughness = [0, 1]
 Halfway through our validation process Arnold 5.0 got released and with it came the new [Standard Surface shader](https://support.solidangle.com/display/A5AFMUG/Standard+Surface) which is based on a Metalness/Roughness workflow. This allowed for a much simpler mapping:
 
 ~~~~
-// "standard_surface"
+// "aiStandardSurface"
 // ==============================================================================================
 AiNodeSetFlt(standard_shader, "base", 1.f);
 AiNodeSetRGB(standard_shader, "base_color", color.x, color.y, color.z);
@@ -57,7 +57,7 @@ AiNodeSetFlt(standard_shader, "metalness", metallic);
 
 ### Investigating material differences ###
 
-The first thing we noticed is an excess in reflection intensity for reflections with large incident angles. Arnold supports [light path expressions](https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to compare and identify the term causing the differences. In this particular case we quickly identified that we had an energy conservation problem. Specifically the contribution from the Fresnel reflections was not removed from the diffuse contribution:
+The first thing we noticed is an excess in reflection intensity for reflections with large incident angles. Arnold supports [Light Path Expressions](https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to compare and identify the term causing the differences. In this particular case we quickly identified that we had an energy conservation problem. Specifically the contribution from the Fresnel reflections was not removed from the diffuse contribution:
 
 ![](images/fix1.jpg)
 
