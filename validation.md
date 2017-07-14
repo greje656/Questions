@@ -1,8 +1,8 @@
 # Validating materials and lights in Stingray #
-Stingray 1.9 is just around the corner and with it will come our new physical lights. I wanted to write a little bit about the validation process that we went through to increase our confidence in the behaviour of our standard material and physical lights.
 
 ![](images/compa.gif)
-![](images/compb.gif)
+
+Stingray 1.9 is just around the corner and with it will come our new physical lights. I wanted to write a little bit about the validation process that we went through to increase our confidence in the behaviour of our standard material and physical lights.
 
 Early on we were quite set on building a small controlled "light room" similar to what the [Fox Engine team presented at GDC](https://youtu.be/FQMbxzTUuSg?t=19m25s) as a validation process. But while this seemed like a fantastic way to validate the entire pipeline is giving plausible results, it felt like identifying the source of discontinuities when comparing photographs vs renders might involve a lot of guess work. So we decided to delay the validation process through a light room and started thinking about comparing our values with another high quality renderer. Since Arnold joined Autodesk last year and that we had access to a license server it seemed like a good candidate. Note that the Arnold SDK is extremely easy to use and can be [downloaded](https://www.solidangle.com/arnold/download) for free. If you don't have a license you still have access to all the features and the only limitation is that the rendered frames are watermarked. 
 
@@ -92,7 +92,10 @@ Finally we were also able to validate our ies lights and color temperature:
 
 ![](images/ies2.gif)
 
-### Final thoughts ###
+### Results and final thoughts ###
+
+![](images/compa.gif)
+![](images/compb.gif)
 
 Integrating a high quality offline renderer like Arnold has proven invaluable in the process of validating our lights in Stingray. A similar validation process could be applicable to many other aspects of our rendering pipeline (antialiasing, refractive materials, fur, hair, post-effects, volumetrics, ect)
 
