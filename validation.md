@@ -75,7 +75,7 @@ It wasn't clear to me how Fresnel's law of reflection applied to metals. I asked
 
 ![](images/reflectance.jpg)
 
-For the Fresnel term we use a pre filtered Fresnel offset stored in a 2d lut (as proposed by Brian Karis during [Siggraph 2013](http://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_slides.pdf)). While results can diverge slightly from Arnold's standard_surface (see "the effect of metalness" from Zap Andeson's [Physical Material Whitepaper](https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0) for more detail on how the Frenel term is calculated in Arnold), in most cases we get an edge tint that is pretty close:
+For the Fresnel term we use a pre filtered Fresnel offset stored in a 2d lut (as proposed by Brian Karis in [Real Shading in Unreal Engine 4](http://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_slides.pdf)). While results can diverge slightly from Arnold's standard_surface (see "the effect of metalness" from Zap Andeson's [Physical Material Whitepaper](https://www.dropbox.com/s/jt8dk65u14n2mi5/Physical%20Material%20-%20Whitepaper%20-%201.01.pdf?dl=0) for more detail on how the Frenel term is calculated in Arnold), in most cases we get an edge tint that is pretty close:
 
 ![](images/metal4.jpg)
 
