@@ -96,7 +96,7 @@ Finally we were also able to validate our ies lights and color temperature:
 
 Integrating a high quality offline renderer like Arnold has proven invaluable in the process of validating our lights in Stingray. A similar validation process could be applicable to many other aspects of our rendering pipeline (antialiasing, refractive materials, fur, hair, post-effects, volumetrics, ect)
 
-I also think that it can be a very powerful tool for content creators to build up intuition on the impact of indirect lighting. For example in a simple scene like this, adding a diffuse plane dramatically changes the lighting on the Buddha statue:
+I also think that it can be a very powerful tool for content creators to build intuition on the impact of indirect lighting in a particular scene. For example in a simple level like this, adding a diffuse plane dramatically changes the lighting on the Buddha statue:
 
 ![](images/diffuse.gif)
 
