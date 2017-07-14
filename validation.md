@@ -51,11 +51,11 @@ AiNodeSetFlt(standard_shader, "metalness", metallic);
 
 ### Investigating material differences ###
 
-The first thing we noticed is an excess in reflection intensity for reflections with a large incident angles. Arnold supports [light path expressions](https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to identify which term caused the difference between ours and their results. In this particular case we quickly identified that we had an energy conservation issue due to a double contribution of the Fresnel and diffuse terms:
+The first thing we noticed is an excess in reflection intensity for reflections with large incident angles. Arnold supports [light path expressions](https://support.solidangle.com/display/A5AFMUG/Introduction+to+Light+Path+Expressions) which made it very easy to compare and identify the term causing the differences. In this particular case we quickly identified that we had an energy conservation problem. Specifically the contribution from the Fresnel reflections was not removed from the diffuse contribution:
 
 ![](images/fix1.jpg)
 
-With scenes with a lot of smooth reflective surfaces, the impact can be quite noticable:
+Scenes with a lot of smooth reflective surfaces demonstrates the impact of this issue noticeably:
 
 ![](images/fixc.gif)
 ![](images/fixa.gif)
