@@ -71,7 +71,7 @@ Another source of differences and confusion came from the tint of the Fresnel te
 
 ![](images/metal3.jpg)
 
-It wasn't clear to me how Fresnel's law of reflection applied to metals. Following a post on Twitter Brooke Hodgman made an elegant [statement](https://twitter.com/BrookeHodgman/status/884532159331028992) claiming "Metalic reflections are coloured because their Fresnel is wavelength varying, but Fresnel still goes to 1 at 90deg for every wavelength". I later found a [graph](https://en.wikipedia.org/wiki/Reflectance) which confirmed exactly that: 
+It wasn't clear to me how Fresnel's law of reflection applied to metals. I asked the Twittersphere what their thoughts were on this and got this simple and elegant [claim](https://twitter.com/BrookeHodgman/status/884532159331028992) made by Brooke Hodgman: "Metalic reflections are coloured because their Fresnel is wavelength varying, but Fresnel still goes to 1 at 90deg for every wavelength". This convinced me instantly that indeed the correct thing to do was to use an un-tinted Fresnel contribution regardless of the metallicness of the material. I later found this [graph](https://en.wikipedia.org/wiki/Reflectance) which also confirmed exactly that: 
 
 ![](images/reflectance.jpg)
 
