@@ -1,6 +1,6 @@
 # Validating materials and lights in Stingray #
 
-![](images/compa.gif)
+![](images/comp-01.gif)
 
 Stingray 1.9 is just around the corner and with it will come our new physical lights. I wanted to write a little bit about the validation process that we went through to increase our confidence in the behaviour of our materials and lights.
 
@@ -97,8 +97,8 @@ Finally we were also able to validate our ies profile parser/shader and our colo
 
 ### Results and final thoughts ###
 
-![](images/compa.gif)
-![](images/compb.gif)
+![](images/comp-01.gif)
+![](images/comp-02.gif)
 
 Integrating a high quality offline renderer like Arnold has proven invaluable in the process of validating our lights in Stingray. A similar validation process could be applicable to many other aspects of our rendering pipeline (antialiasing, refractive materials, fur, hair, post-effects, volumetrics, ect)
 
