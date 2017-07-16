@@ -98,7 +98,7 @@ Finally we were also able to validate our ies profile parser/shader and our colo
 ### Results and final thoughts ###
 
 ![](images/comp-01.gif)
-![](images/comp-02.gif)
+![](images/comp-03.gif)
 
 Integrating a high quality offline renderer like Arnold has proven invaluable in the process of validating our lights in Stingray. A similar validation process could be applicable to many other aspects of our rendering pipeline (antialiasing, refractive materials, fur, hair, post-effects, volumetrics, ect)
 
