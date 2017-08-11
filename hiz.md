@@ -12,7 +12,7 @@ Traced ssr:
 
 The weird horizontal stripes we're reported when ssr was enabled in the Stingray editor. They only revealed themselves for certain resolution (they would appear and disappear as the viewport got resized). I started writing some tracing visualization views to help me track each hiz trace event:
 
-![](https://github.com/greje656/Questions/blob/master/images/ssr-gif2.gif)
+![](https://github.com/greje656/Questions/blob/master/images/ssr-gif7.gif)
 
 Using these kinds of debug views were invaluable for debugging hiz tracing (and ssr in general) through out the development process. For the artifact described above I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly ad the edge of a hi-z cell. Which caused the cell intersection routine to fail.
 
@@ -27,4 +27,4 @@ float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 ce
 
 To tackle this problem we need to make sure that the traced rays always start from the center of a hiz cell. 
 
-![](https://github.com/greje656/Questions/blob/master/images/ssr-gif5.gif)
+![](https://github.com/greje656/Questions/blob/master/images/ssr-gif6.gif)
