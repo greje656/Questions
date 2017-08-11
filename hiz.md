@@ -77,6 +77,8 @@ if(v.z > 0) {
 
 This has proven to be fairly solid and enables us to trace a wider range of the screen space:
 
+https://www.youtube.com/watch?v=BjoMu-yI3k8&feature=youtu.be
+
 # Ray Marching Behind Surfaces
 
 Another alteration that can be made to the hiz tracing algorithm is to add support for rays to travel behind surface. Of course to do this you must define a thickness to the surface of the hiz cells. So instead of tracing against extruded hiz cells you trace against "floating" hiz cells.
