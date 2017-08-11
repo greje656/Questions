@@ -16,7 +16,7 @@ The weird horizontal stripes we're reported when ssr was enabled in the Stingray
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif7.gif)
 
-Using these kinds of debug views were invaluable for debugging hiz tracing (and ssr in general) through out the development process. For the artifact described above I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly ad the edge of a hiz cell. As the numerator gets closer and closer to zero the solutions for the intersection starts to loose precision until it breaks apart completely.  
+Using these kinds of debug views I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly ad the edge of a hiz cell. As the numerator gets closer and closer to zero the solutions for the intersection starts to loose precision until it breaks apart completely.  
 
 ~~~~
 float2 solutions = (planes - pos.xy)/dir.xy;
