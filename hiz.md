@@ -64,13 +64,13 @@ At the end of the GPU-Pro chapter there is a small mention that raymarching towa
 if(v.z > 0) {
 	float min_minus_ray = min_z - ray.z;
 	tmp_ray = min_minus_ray > 0 ? ray + v_z*min_minus_ray : tmp_ray;
-	float2 new_cell_id = cell(tmp_ray.xy, current_cell_count, camera);
+	float2 new_cell_id = cell(tmp_ray.xy, current_cell_count);
 	if(crossed_cell_boundary(old_cell_id, new_cell_id)) {
-		tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset, camera);
+		tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
 		level = min(HIZ_MAX_LEVEL, level + 2.0f);
 	}
 } else if(ray.z < min_z) {
-	tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset, camera);
+	tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
 	level = min(HIZ_MAX_LEVEL, level + 2.0f);
 }
 ~~~
@@ -85,7 +85,7 @@ Another alteration that can be made to the hiz tracing algorithm is to add suppo
 
 ~~~
 if(level == HIZ_START_LEVEL && min_minus_ray > depth_threshold) {
-	tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset, camera);
+	tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
 	level = HIZ_START_LEVEL + 1;
 }
 ~~~
