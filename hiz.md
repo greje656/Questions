@@ -16,17 +16,10 @@ The weird horizontal stripes we're reported when ssr was enabled in the Stingray
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif7.gif)
 
-Using these kinds of debug views were invaluable for debugging hiz tracing (and ssr in general) through out the development process. For the artifact described above I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly ad the edge of a hiz cell. Which caused the cell intersection routine to fail.
+Using these kinds of debug views were invaluable for debugging hiz tracing (and ssr in general) through out the development process. For the artifact described above I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly ad the edge of a hiz cell. As the numerator gets closer and closer to zero the solutions for the intersection starts to loose precision until it breaks apart completely.  
 
 ~~~~
-float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
-  float2 cell_size = 1.0 / cell_count;
-  float2 planes = cell_id/cell_count + cell_size * cross_step + cross_offset;
-  float2 solutions = (planes - pos.xy)/dir.xy;
-
-  float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
-  return intersection_pos;
-}
+float2 solutions = (planes - pos.xy)/dir.xy;
 ~~~~
 
 To tackle this problem we can snap the origin of each traced rays to the center of a hiz cell:
@@ -42,6 +35,17 @@ However it didn't address all the tracing artifacts. The trace was still plagued
 
 ~~~~
 float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
+  float2 cell_size = 1.0 / cell_count;
+  float2 planes = cell_id/cell_count + cell_size * cross_step + cross_offset;
+  float2 solutions = (planes - pos.xy)/dir.xy;
+
+  float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
+  return intersection_pos;
+}
+~~~~
+
+~~~~
+float3 intersect_cell_boundary_fixed(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
   float2 cell_size = 1.0 / cell_count;
   float2 planes = cell_id/cell_count + cell_size * cross_step;
   float2 solutions = (planes - pos)/dir.xy;
