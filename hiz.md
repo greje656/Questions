@@ -96,7 +96,7 @@ if(level == HIZ_START_LEVEL && min_minus_ray > depth_threshold) {
 
 Tracing Behind Surfaces disabled VS enabled:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr13.jpg)
-![](https://github.com/greje656/Questions/blob/master/images/ssr15.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/ssr17.jpg)
 
 Unfortunately this often means that the traced rays travelling behind a surface degenerate into a linear search and the cost can skyrocket for these traced pixels: 
 
