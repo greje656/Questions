@@ -110,7 +110,7 @@ For me the most difficult and hard to understand artifact of ssr is (by far) the
 
 https://youtu.be/ZftaDG2q3D0
 
-The problem as far as I understand it, is that rays can osciliate from hitting the surface back and forth when it's tracing rays that are almost parallelel to the extruded depth cells:
+The problem _as far as I understand it_, is that rays can osciliate from hitting the surface back and forth when it's tracing rays that are almost parallelel to the extruded depth cells. It is essentially an alliasing problem caused by the low quality of the depth signal:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-depth-threshold01.jpg)
 
-I have experimented with adapting the threshold based on different properties of the intersection (direction of reflected ray, angle of insidence at intersection, surface inclination at intersection) but I have never been able to find a silver bullet (or anything that resembles a bullet to be honest). I think that Mikkel Svendsen proposed a solution to this problem while presenting [https://youtu.be/RdN06E6Xn9E?t=40m27s]("Low Complexity, High Fidelity: The Rendering of INSIDE") but I have yet to wrap my head around the proposed solution and try it.
+I have experimented with adapting the depth threshold based on different properties of the intersection point (direction of reflected ray, angle of insidence at intersection, surface inclination at intersection) but I have never been able to find a silver bullet (or anything that resembles a bullet to be honest). I think that Mikkel Svendsen proposed a solution to this problem while presenting [Low Complexity, High Fidelity: The Rendering of "INSIDE"](https://youtu.be/RdN06E6Xn9E?t=40m27s) but I have yet to wrap my head around the proposed solution and try it.
