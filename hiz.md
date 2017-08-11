@@ -32,8 +32,8 @@ float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 ce
 To tackle this problem we can snap the origin of each traced rays to the center of a hiz cell:
 
 ~~~
-  float2 cell_count_of_start_level = cell_count(HIZ_START_LEVEL);
-  float2 hiz_aligned_uv = floor(input.uv * cell_count_of_start_level)/cell_count_of_start_level + 0.25/cell_count_of_start_level;
+float2 cell_count_of_start_level = cell_count(HIZ_START_LEVEL);
+float2 aligned_uv = floor(input.uv * cell_count_of_start_level)/cell_count_of_start_level + 0.25/cell_count_of_start_level;
 ~~~
  
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif6.gif)
