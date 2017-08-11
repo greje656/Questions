@@ -1,6 +1,6 @@
-# Notes on ssr HIZ tracing
+# Notes On SSR HIZ Tracing
 
-The following is small gathering of notes and findings that we made through out the implementation of Hi-Z tracing in screen space for ssr in Stingray. I've recently heard a few claims regarding Hi-Z which motivated me to share some notes on the topic. Note that I also wrote about how we reproject reflections in a previous entry which might be of interest.
+The following is small gathering of notes and findings that we made through out the implementation of hiz tracing in screen space for ssr in Stingray. I've recently heard a few claims regarding hiz which motivated me to share some notes on the topic. Note that I also wrote about how we reproject reflections in a previous entry which might be of interest.
 
 The original implementation was basically an implementation of the Hi-Z Screen-Space tracing described in GPU-Pro 5 by Yasin Uludag. The very first results we got looked something like this:
 
@@ -10,11 +10,13 @@ Original scene:
 Traced ssr:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr2.jpg)
 
+# Artifacts
+
 The weird horizontal stripes we're reported when ssr was enabled in the Stingray editor. They only revealed themselves for certain resolution (they would appear and disappear as the viewport got resized). I started writing some tracing visualization views to help me track each hiz trace event:
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif7.gif)
 
-Using these kinds of debug views were invaluable for debugging hiz tracing (and ssr in general) through out the development process. For the artifact described above I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly ad the edge of a hi-z cell. Which caused the cell intersection routine to fail.
+Using these kinds of debug views were invaluable for debugging hiz tracing (and ssr in general) through out the development process. For the artifact described above I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly ad the edge of a hiz cell. Which caused the cell intersection routine to fail.
 
 ~~~~
 float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
@@ -54,3 +56,39 @@ Using this method we we're able to get rid of the left over trace artifacts:
 Final result:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr6.jpg)
 
+# Ray Marching Towards the Camera
+
+At the end of the GPU-Pro chapter there is a small mention that raymarching towards the camera with hiz tracing would require storing both the minimum and maximum depth value in the hiz structure (requiring to bump the format to a R32G32F format. However if you visualize the trace of a ray leaving the surface and travelling towards the camera (i.e. away from the depth buffer plane) then you can augment the algorithm described GPU-Pro to find the first hit with a depth cell:
+
+~~~
+if(v.z > 0) {
+	float min_minus_ray = min_z - ray.z;
+	tmp_ray = min_minus_ray > 0 ? ray + v_z*min_minus_ray : tmp_ray;
+	float2 new_cell_id = cell(tmp_ray.xy, current_cell_count, camera);
+	if(crossed_cell_boundary(old_cell_id, new_cell_id)) {
+		tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset, camera);
+		level = min(HIZ_MAX_LEVEL, level + 2.0f);
+	}
+} else if(ray.z < min_z) {
+	tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset, camera);
+	level = min(HIZ_MAX_LEVEL, level + 2.0f);
+}
+~~~
+
+This has proven to be fairly solid and enables us to trace a wider range of the screen space:
+
+# Ray Marching Behind Surfaces
+
+Another alteration that can be made to the hiz tracing algorithm is to add support for rays to travel behind surface. Of course to do this you must define a thickness to the surface of the hiz cells. So instead of tracing against extruded hiz cells you trace against "floating" hiz cells.
+
+~~~
+if(level == HIZ_START_LEVEL && min_minus_ray > depth_threshold) {
+	tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset, camera);
+	level = HIZ_START_LEVEL + 1;
+}
+~~~
+
+![](https://github.com/greje656/Questions/blob/master/images/ssr5.jpg)
+
+![](https://github.com/greje656/Questions/blob/master/images/ssr6.jpg)
+  
