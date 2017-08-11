@@ -19,12 +19,20 @@ Using these kinds of debug views were invaluable for debugging hiz tracing (and 
 ~~~~
 float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
     float2 cell_size = 1.0 / cell_count;
-    float2 planes = cell_id/cell_count + cell_size*cross_step + cross_offset;
+    float2 planes = cell_id/cell_count + cell_size * cross_step + cross_offset;
     float2 solutions = (planes - pos.xy)/dir.xy;
-    return pos + dir * min(solutions.x, solutions.y);
+
+    float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
+    return intersection_pos;
 }
 ~~~~
 
-To tackle this problem we need to make sure that the traced rays always start from the center of a hiz cell. 
-
+To tackle this problem we can snap the origin of each traced rays to the center of a hiz cell: 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif6.gif)
+
+However it didn't address all the tracing artifacts. The trace was still plagued by a lot of small pixels whose traced failed. When investigating these failing traces I noticed that they would sometimes incorrectly jump hiz cell incorrectly. The artifact also appeared more frequently for rays travelling in the screen space axis (±1,0) or (0,±1). After drawing a hundred ray diagrams on paper I realized that the cell intersection method proposed in GPU-Pro has a failing case. The proposed solution offsets the intersection planes by a small amount to make sure the traversal never gets stuck. This works in most cases but can result in a ray stuck. We can address this by modifying the method slightly. Instead of offsetting the planes we them as is, find the closest solution for the ray intersection, and choose an offset accordingly:
+
+![](https://github.com/greje656/Questions/blob/master/images/ssr11.jpg)
+
+Using this method we we're able to get rid of the left over trace artifacts:
+![](https://github.com/greje656/Questions/blob/master/images/ssr-gif9.gif)
