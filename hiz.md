@@ -93,4 +93,10 @@ if(level == HIZ_START_LEVEL && min_minus_ray > depth_threshold) {
 ![](https://github.com/greje656/Questions/blob/master/images/ssr5.jpg)
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr6.jpg)
+
+Unfortunatly this often means that the traced rays travelling behind a surface degenerate into a linear search and the cost can skyrocket for these traced pixels: 
+
+Iterations used to complete trace (black=0, red=128)
+![](https://github.com/greje656/Questions/blob/master/images/ssr-gif10.gif)
+
   
