@@ -25,6 +25,6 @@ float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 ce
 }
 ~~~~
 
-To tackle this problem I made sure that the trace always started from the center of a hiz cell. 
+To tackle this problem we need to make sure that the traced rays always start from the center of a hiz cell. 
 
-![](https://github.com/greje656/Questions/blob/master/images/ssr-gif4.gif)
+![](https://github.com/greje656/Questions/blob/master/images/ssr-gif5.gif)
