@@ -20,12 +20,12 @@ Using these kinds of debug views were invaluable for debugging hiz tracing (and 
 
 ~~~~
 float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
-    float2 cell_size = 1.0 / cell_count;
-    float2 planes = cell_id/cell_count + cell_size * cross_step + cross_offset;
-    float2 solutions = (planes - pos.xy)/dir.xy;
+  float2 cell_size = 1.0 / cell_count;
+  float2 planes = cell_id/cell_count + cell_size * cross_step + cross_offset;
+  float2 solutions = (planes - pos.xy)/dir.xy;
 
-    float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
-    return intersection_pos;
+  float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
+  return intersection_pos;
 }
 ~~~~
 
@@ -36,13 +36,13 @@ However it didn't address all the tracing artifacts. The trace was still plagued
 
 ~~~~
 float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
-    float2 cell_size = 1.0 / cell_count;
-    float2 planes = cell_id/cell_count + cell_size * cross_step;
-    float2 solutions = (planes - pos)/dir.xy;
+  float2 cell_size = 1.0 / cell_count;
+  float2 planes = cell_id/cell_count + cell_size * cross_step;
+  float2 solutions = (planes - pos)/dir.xy;
 
-    float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
-    intersection_pos.xy += (solutions.x < solutions.y) ? float2(cross_offset.x, 0.0) : float2(0.0, cross_offset.y);
-    return intersection_pos;
+  float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
+  intersection_pos.xy += (solutions.x < solutions.y) ? float2(cross_offset.x, 0.0) : float2(0.0, cross_offset.y);
+  return intersection_pos;
 }
 ~~~~
 
@@ -62,16 +62,16 @@ At the end of the GPU-Pro chapter there is a small mention that raymarching towa
 
 ~~~
 if(v.z > 0) {
-	float min_minus_ray = min_z - ray.z;
-	tmp_ray = min_minus_ray > 0 ? ray + v_z*min_minus_ray : tmp_ray;
-	float2 new_cell_id = cell(tmp_ray.xy, current_cell_count);
-	if(crossed_cell_boundary(old_cell_id, new_cell_id)) {
-		tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
-		level = min(HIZ_MAX_LEVEL, level + 2.0f);
-	}
+  float min_minus_ray = min_z - ray.z;
+  tmp_ray = min_minus_ray > 0 ? ray + v_z*min_minus_ray : tmp_ray;
+  float2 new_cell_id = cell(tmp_ray.xy, current_cell_count);
+  if(crossed_cell_boundary(old_cell_id, new_cell_id)) {
+    tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
+    level = min(HIZ_MAX_LEVEL, level + 2.0f);
+  }
 } else if(ray.z < min_z) {
-	tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
-	level = min(HIZ_MAX_LEVEL, level + 2.0f);
+  tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
+  level = min(HIZ_MAX_LEVEL, level + 2.0f);
 }
 ~~~
 
@@ -85,8 +85,8 @@ Another alteration that can be made to the hiz tracing algorithm is to add suppo
 
 ~~~
 if(level == HIZ_START_LEVEL && min_minus_ray > depth_threshold) {
-	tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
-	level = HIZ_START_LEVEL + 1;
+  tmp_ray = intersect_cell_boundary(ray, v, old_cell_id, current_cell_count, cross_step, cross_offset);
+  level = HIZ_START_LEVEL + 1;
 }
 ~~~
 
