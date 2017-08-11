@@ -50,3 +50,7 @@ Left: The ray to trace against a cell. Middle: Ray gets stuck due to incorrect i
 Using this method we we're able to get rid of the left over trace artifacts:
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif9.gif)
+
+Final result:
+![](https://github.com/greje656/Questions/blob/master/images/ssr6.jpg)
+
