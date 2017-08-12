@@ -21,8 +21,8 @@ Using these kinds of debug views I was able to see that for some resolution, the
 To tackle this problem we snap the origin of each traced rays to the center of a hiz cell:
 
 ~~~
-float2 cell_count_of_start_level = cell_count(HIZ_START_LEVEL);
-float2 aligned_uv = floor(input.uv * cell_count_of_start_level)/cell_count_of_start_level + 0.25/cell_count_of_start_level;
+float2 cell_count_at_start = cell_count(HIZ_START_LEVEL);
+float2 aligned_uv = floor(input.uv * cell_count_at_start)/cell_count_at_start + 0.25/cell_count_at_start;
 ~~~
  
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif6.gif)
