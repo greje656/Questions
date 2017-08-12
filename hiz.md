@@ -55,8 +55,8 @@ float3 intersect_cell_boundary_fixed(float3 pos, float3 dir, float2 cell_id, flo
 }
 ~~~~
 
-Left: Ray to trace against a cell<br/><br/>
-Middle: Ray stuck due to incorrect intersection
+Left: Ray to trace against a cell<br/>
+Middle: Ray stuck due to incorrect intersection<br/>
 Left: Ray crosses in cell properly
 ![](https://github.com/greje656/Questions/blob/master/images/ssr16.jpg)
 
