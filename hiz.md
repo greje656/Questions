@@ -55,7 +55,7 @@ float3 intersect_cell_boundary_fixed(float3 pos, float3 dir, float2 cell_id, flo
 }
 ~~~~
 
-![](https://github.com/greje656/Questions/blob/master/images/ssr18.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/ssr19.jpg)
 
 Using this method we we're able to get rid of the left over trace artifacts:
 
