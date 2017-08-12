@@ -28,7 +28,9 @@ float2 aligned_uv = floor(input.uv * cell_count_at_start)/cell_count_at_start + 
 Traced with VS without rays snapping to starting pos of hiz cell center:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif6.gif)
 
-However it didn't address all the tracing artifacts. The trace was still plagued by a lot of small pixels whose traced failed. When investigating these failing traces I noticed that they would sometimes get struck for no appareant reason. It also appeared to be more frequent for rays travelling in the screen space axes (±1,0) or (0,±1). After drawing a hundred ray diagrams on paper I realized that the cell intersection method proposed in GPU-Pro has a failing case. The proposed solution offsets the intersection planes by a small amount to make sure the traversal never gets stuck. This works in most cases but can result in a ray that will not cross over into the next hiz cell. Hence the ray will waste the rest of it's allocated trace iterations intersecting the same cell over and over without ever crossing it. We can address this by modifying the method slightly. Instead of offsetting the planes we leave as is, find the closest solution for the ray intersection, and choose an offset accordingly:
+This looked better. However it didn't address all of the tracing artifacts we were seeing. The results were still plagued with lots of small pixels whose traced rays failed. When investigating these failing cases I noticed that they would sometimes get stuck for no apparent reason in a cell along the way. It also occurred more frequently when rays travelled in the screen space axes (±1,0) or (0,±1). After drawing a bunch of ray diagrams on paper I realized that the cell intersection method proposed in GPU-Pro had a failing case! To ensure hiz cells are always crossed, the article offsets the intersection planes of a cell by a small offset. This is to ensure that the intersection point crosses the boundaries of the cell it's intersecting so that the trace continues to make progress.
+
+While this works in most cases there is one scenario which results in a ray that will not cross over into the next hiz cell (and will cause the ray to waste the rest of it's allocated trace iterations intersecting the same cell over and over without ever crossing it). To address this we changed the proposed method slightly. Instead of offsetting the planes we leave them as is, find the closest solution for the ray intersection, and choose an offset accordingly:
 
 ~~~~
 float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
@@ -53,9 +55,9 @@ float3 intersect_cell_boundary_fixed(float3 pos, float3 dir, float2 cell_id, flo
 }
 ~~~~
 
-Left: Ray to trace against a cell.
-Middle: Ray stuck due to incorrect intersection.
-Left: Ray crosses in cell properly.
+Left: Ray to trace against a cell\s\s
+Middle: Ray stuck due to incorrect intersection\s\s
+Left: Ray crosses in cell properly
 ![](https://github.com/greje656/Questions/blob/master/images/ssr16.jpg)
 
 Using this method we we're able to get rid of the left over trace artifacts:
