@@ -18,7 +18,7 @@ The weird horizontal stripes we're reported when ssr was enabled in the Stingray
 
 Using these kinds of debug views I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly at the edge of a hiz cell. Since tracing the hiz structure relies on intersecting the current position of a ray with the bounrady of cell it lies in, it means that we need to do a ray/plane intersection. As the numerator of (planes - pos.xy)/dir.xy got closer and closer to zero the solutions for the intersection started to loose precision until it completely fell apart.  
 
-To tackle this problem we can snap the origin of each traced rays to the center of a hiz cell:
+To tackle this problem we snap the origin of each traced rays to the center of a hiz cell:
 
 ~~~
 float2 cell_count_of_start_level = cell_count(HIZ_START_LEVEL);
