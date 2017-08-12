@@ -86,7 +86,8 @@ if(v.z > 0) {
 
 This has proven to be fairly solid and enables us to trace a wider range of the screen space:
 
-https://www.youtube.com/watch?v=BjoMu-yI3k8&feature=youtu.be
+[https://youtu.be/BjoMu-yI3k8](https://youtu.be/BjoMu-yI3k8)
+![](https://github.com/greje656/Questions/blob/master/images/ssr20.jpg)
 
 ## Ray Marching Behind Surfaces
 
