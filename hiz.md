@@ -55,10 +55,7 @@ float3 intersect_cell_boundary_fixed(float3 pos, float3 dir, float2 cell_id, flo
 }
 ~~~~
 
-Left: Ray to trace against a cell<br/>
-Middle: Ray stuck due to incorrect intersection<br/>
-Right: Ray crosses in cell properly
-![](https://github.com/greje656/Questions/blob/master/images/ssr16.jpg)
+![](https://github.com/greje656/Questions/blob/master/images/ssr18.jpg)
 
 Using this method we we're able to get rid of the left over trace artifacts:
 
