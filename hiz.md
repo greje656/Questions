@@ -104,7 +104,7 @@ if(level == HIZ_START_LEVEL && min_minus_ray > depth_threshold) {
 }
 ~~~
 
-Tracing Behind Surfaces disabled VS enabled:
+Tracing behind surfaces disabled VS enabled:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr13.jpg)
 ![](https://github.com/greje656/Questions/blob/master/images/ssr17.jpg)
 
