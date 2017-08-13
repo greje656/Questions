@@ -2,7 +2,7 @@
 
 The following is a small gathering of notes and findings that we made through out the implementation of hiz tracing in screen space for ssr in Stingray. I recently heard a few claims regarding hiz tracing which motivated me to share some notes on the topic. Note that I also wrote about how we  reproject reflections in a [previous entry](http://bitsquid.blogspot.ca/2017/06/reprojecting-reflections_22.html) which might be of interest.
 
-The original implementation of our hiz tracing method was basically a straight port of the "Hi-Z Screen-Space Tracing" described in [GPU-Pro 5]((https://www.crcpress.com/GPU-Pro-5-Advanced-Rendering-Techniques/Engel/p/book/9781482208634)) by [Yasin Uludag](https://twitter.com/yasinuludag). The very first results we got looked something like this:
+The original implementation of our hiz tracing method was basically a straight port of the "Hi-Z Screen-Space Tracing" described in [GPU-Pro 5](https://www.crcpress.com/GPU-Pro-5-Advanced-Rendering-Techniques/Engel/p/book/9781482208634) by [Yasin Uludag](https://twitter.com/yasinuludag). The very first results we got looked something like this:
 
 Original scene:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr1.jpg)
@@ -110,7 +110,7 @@ Tracing behind surfaces disabled VS enabled:
 
 Unfortunately this often means that the traced rays travelling behind a surface degenerate into a linear search and the cost can skyrocket for these traced pixels: 
 
-Iterations count to complete trace (black=0, red=128)
+Number of iterations to complete the trace (black=0, red=128):
 ![](https://github.com/greje656/Questions/blob/master/images/ssr14.jpg)
 
 
