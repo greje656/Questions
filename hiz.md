@@ -65,7 +65,7 @@ Final result:
 
 ## Ray Marching Towards the Camera
 
-At the end of the GPU-Pro chapter there is a small mention that raymarching towards the camera with hiz tracing would require storing both the minimum and maximum depth value in the hiz structure (requiring to bump the format to a R32G32F format). However if you visualize the trace of a ray leaving the surface and travelling towards the camera (i.e. away from the depth buffer plane) then you can augment acount for that case and augment the algorithm described in GPU-Pro to navigate up and down the hierarchy until find the first hit with a cell is found:
+At the end of the GPU-Pro chapter there is a small mention that raymarching towards the camera with hiz tracing would require storing both the minimum and maximum depth value in the hiz structure (requiring to bump the format to a R32G32F format). However if you visualize the trace of a ray leaving the surface and travelling towards the camera (i.e. away from the depth buffer plane) then you can simply acount for that case and augment the algorithm described in GPU-Pro to navigate up and down the hierarchy until the ray finds the first hit with a hiz cell:
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-cam1.jpg)
 
