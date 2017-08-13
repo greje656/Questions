@@ -121,7 +121,7 @@ For me the most difficult artifact to understand and deal with implementing ssr 
 [https://youtu.be/ZftaDG2q3D0](https://youtu.be/ZftaDG2q3D0)
 ![](https://github.com/greje656/Questions/blob/master/images/ssr25.jpg)
 
-The problem _as far as I understand it_, is that rays can osciliate from hitting the surface back and forth when it's tracing rays that are almost parallelel to the extruded depth cells. It is essentially an alliasing problem caused by the low quality of the depth signal:
+The problem _as far as I understand it_, is that rays can osciliate from passing and failing the depth threshold test. It is essentially an amplified alliasing problem caused by the resolution of the depth buffer:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr24.jpg)
 
 I have experimented with adapting the depth threshold based on different properties of the intersection point (direction of reflected ray, angle of insidence at intersection, surface inclination at intersection) but I have never been able to find a silver bullet (or anything that resembles a bullet to be honest). Perhaps a good approach could be to interpolate the depth value of neighboring cells _if_ the neigborhs belong to the same geometry? I think that Mikkel Svendsen proposed a solution to this problem while presenting [Low Complexity, High Fidelity: The Rendering of "INSIDE"](https://youtu.be/RdN06E6Xn9E?t=40m27s) but I have yet to wrap my head around the proposed solution and try it.
