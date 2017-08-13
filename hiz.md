@@ -106,7 +106,7 @@ Tracing behind surfaces disabled VS enabled:
 
 Unfortunately this often means that the traced rays travelling behind a surface degenerate into a linear search and the cost can skyrocket for these traced pixels: 
 
-Number of iterations to complete the trace (black=0, red=128):
+Number of iterations to complete the trace (black=0, red=64):
 ![](https://github.com/greje656/Questions/blob/master/images/ssr14.jpg)
 
 
