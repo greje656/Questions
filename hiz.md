@@ -65,7 +65,7 @@ Final result:
 
 ## Ray Marching Towards the Camera
 
-At the end of the GPU-Pro chapter there is a small mention that raymarching towards the camera with hiz tracing would require storing both the minimum and maximum depth value in the hiz structure (requiring to bump the format to a R32G32F format). However if you visualize the trace of a ray leaving the surface and travelling towards the camera (i.e. away from the depth buffer plane) then you can augment the algorithm described in GPU-Pro to navigate up and down the hierarchy until find the first hit with a cell is found:
+At the end of the GPU-Pro chapter there is a small mention that raymarching towards the camera with hiz tracing would require storing both the minimum and maximum depth value in the hiz structure (requiring to bump the format to a R32G32F format). However if you visualize the trace of a ray leaving the surface and travelling towards the camera (i.e. away from the depth buffer plane) then you can augment acount for that case and augment the algorithm described in GPU-Pro to navigate up and down the hierarchy until find the first hit with a cell is found:
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-cam1.jpg)
 
@@ -92,6 +92,10 @@ This has proven to be fairly solid and enabled us to trace a wider range of the 
 ## Ray Marching Behind Surfaces
 
 Another alteration that can be made to the hiz tracing algorithm is to add support for rays to travel behind surface. Of course to do this you must define a thickness to the surface of the hiz cells. So instead of tracing against extruded hiz cells you trace against "floating" hiz cells.
+
+![](https://github.com/greje656/Questions/blob/master/images/ssr22.jpg)
+
+With that in mind we can tighten the tracing algorithm so that it cannot end the trace unless it finds a collision with one of these floating cells:
 
 ~~~
 if(level == HIZ_START_LEVEL && min_minus_ray > depth_threshold) {
