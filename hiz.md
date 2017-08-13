@@ -1,6 +1,8 @@
 # Notes On SSR HIZ Tracing
 
-The following is a small gathering of notes and findings that we made through out the implementation of hiz tracing in screen space for ssr in Stingray. I recently heard a few claims regarding hiz tracing which motivated me to share some notes on the topic. Note that I also wrote about how we  reproject reflections in a [previous entry](http://bitsquid.blogspot.ca/2017/06/reprojecting-reflections_22.html) which might be of interest. Also note that I've included all the code at the bottom of the blog.
+[Markdown version](https://github.com/greje656/Questions/blob/master/hiz.md) of this document might have better formatting on phones/tablets.
+
+The following is a small gathering of notes and findings that we made throughout the implementation of hiz tracing in screen space for ssr in Stingray. I recently heard a few claims regarding hiz tracing which motivated me to share some notes on the topic. Note that I also wrote about how we reproject reflections in a [previous entry](http://bitsquid.blogspot.ca/2017/06/reprojecting-reflections_22.html) which might be of interest. Also note that I've included all the code at the bottom of the blog.
 
 The original implementation of our hiz tracing method was basically a straight port of the "Hi-Z Screen-Space Tracing" described in [GPU-Pro 5](https://www.crcpress.com/GPU-Pro-5-Advanced-Rendering-Techniques/Engel/p/book/9781482208634) by [Yasin Uludag](https://twitter.com/yasinuludag). The very first results we got looked something like this:
 
@@ -12,11 +14,11 @@ Traced ssr using hiz tracing:
 
 ## Artifacts
 
-The weird horizontal stripes we're reported when ssr was enabled in the Stingray editor. They only revealed themselves for certain resolution (they would appear and disappear as the viewport got resized). I started writing some tracing visualization views to help me track each hiz trace event:
+The weird horizontal stripes were reported when ssr was enabled in the Stingray editor. They only revealed themselves for certain resolution (they would appear and disappear as the viewport got resized). I started writing some tracing visualization views to help me track each hiz trace event:
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif7.gif)
 
-Using these kinds of debug views I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly at the edge of a hiz cell. Since tracing the hiz structure relies on intersecting the current position of a ray with the bounrady of cell it lies in, it means that we need to do a ray/plane intersection. As the numerator of (planes - pos.xy)/dir.xy got closer and closer to zero the solutions for the intersection started to loose precision until it completely fell apart.  
+Using these kinds of debug views I was able to see that for some resolution, the starting position of a ray when traced at half-res happened to be exactly at the edge of a hiz cell. Since tracing the hiz structure relies on intersecting the current position of a ray with the boundary of cell it lies in, it means that we need to do a ray/plane intersection. As the numerator of (planes - pos.xy)/dir.xy got closer and closer to zero the solutions for the intersection started to loose precision until it completely fell apart.  
 
 To tackle this problem we snap the origin of each traced rays to the center of a hiz cell:
 
@@ -30,7 +32,7 @@ Rays traced with and without snapping to starting pos of the hiz cell center:
 
 This looked better. However it didn't address all of the tracing artifacts we were seeing. The results were still plagued with lots of small pixels whose traced rays failed. When investigating these failing cases I noticed that they would sometimes get stuck for no apparent reason in a cell along the way. It also occurred more frequently when rays travelled in the screen space axes (±1,0) or (0,±1). After drawing a bunch of ray diagrams on paper I realized that the cell intersection method proposed in GPU-Pro had a failing case! To ensure hiz cells are always crossed, the article offsets the intersection planes of a cell by a small offset. This is to ensure that the intersection point crosses the boundaries of the cell it's intersecting so that the trace continues to make progress.
 
-While this works in most cases there is one scenario which results in a ray that will not cross over into the next hiz cell (see diagram bellow). When this happens the ray wastes the rest of it's allocated trace iterations intersecting the same cell without ever crossing it. To address this we changed the proposed method slightly. Instead of offseting the bounding planes, we choose the appropriate offset to add depending on which plane was intersected (horizontal or vertical). This ensures that we will always cross a cell when tracing:
+While this works in most cases there is one scenario which results in a ray that will not cross over into the next hiz cell (see diagram bellow). When this happens the ray wastes the rest of it's allocated trace iterations intersecting the same cell without ever crossing it. To address this we changed the proposed method slightly. Instead of offsetting the bounding planes, we choose the appropriate offset to add depending on which plane was intersected (horizontal or vertical). This ensures that we will always cross a cell when tracing:
 
 ~~~~
 float2 cell_size = 1.0 / cell_count;
@@ -120,7 +122,7 @@ For me the most difficult artifact to understand and deal with when implementing
 The problem _as far as I understand it_, is that rays can osciliate from passing and failing the depth threshold test. It is essentially an amplified alliasing problem caused by the finite resolution of the depth buffer:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr24.jpg)
 
-I have experimented with adapting the depth threshold based on different properties of the intersection point (direction of reflected ray, angle of insidence at intersection, surface inclination at intersection) but I have never been able to find a silver bullet (or anything that resembles a bullet to be honest). Perhaps a good approach could be to interpolate the depth value of neighboring cells _if_ the neigborhs belong to the same geometry? I think that [Mikkel Svendsen](https://twitter.com/ikarosav) proposed a solution to this problem while presenting [Low Complexity, High Fidelity: The Rendering of "INSIDE"](https://youtu.be/RdN06E6Xn9E?t=40m27s) but I have yet to wrap my head around the proposed solution and try it.
+I have experimented with adapting the depth threshold based on different properties of the intersection point (direction of reflected ray, angle of insidence at intersection, surface inclination at intersection) but I have never been able to find a silver bullet (or anything that resembles a bullet to be honest). Perhaps a good approach could be to interpolate the depth value of neighboring cells _if_ the neighbors belong to the same geometry? I think that [Mikkel Svendsen](https://twitter.com/ikarosav) proposed a solution to this problem while presenting [Low Complexity, High Fidelity: The Rendering of "INSIDE"](https://youtu.be/RdN06E6Xn9E?t=40m27s) but I have yet to wrap my head around the proposed solution and try it.
 
 ## All or Nothing
 
