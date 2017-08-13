@@ -25,7 +25,7 @@ float2 cell_count_at_start = cell_count(HIZ_START_LEVEL);
 float2 aligned_uv = floor(input.uv * cell_count_at_start)/cell_count_at_start + 0.25/cell_count_at_start;
 ~~~
 
-Traced with VS without rays snapping to starting pos of hiz cell center:
+Rays traced with and without snapping to starting pos of the hiz cell center:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr-gif6.gif)
 
 This looked better. However it didn't address all of the tracing artifacts we were seeing. The results were still plagued with lots of small pixels whose traced rays failed. When investigating these failing cases I noticed that they would sometimes get stuck for no apparent reason in a cell along the way. It also occurred more frequently when rays travelled in the screen space axes (±1,0) or (0,±1). After drawing a bunch of ray diagrams on paper I realized that the cell intersection method proposed in GPU-Pro had a failing case! To ensure hiz cells are always crossed, the article offsets the intersection planes of a cell by a small offset. This is to ensure that the intersection point crosses the boundaries of the cell it's intersecting so that the trace continues to make progress.
