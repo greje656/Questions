@@ -116,9 +116,10 @@ Number of iterations to complete the trace (black=0, red=128):
 
 ## The Problem of Tracing a Discrete Depth Buffer
 
-For me the most difficult and hard to understand artifact of ssr is (by far) the implications of tracing a discreet depth buffer. Unless you can fully commit to the idea of tracing objects with infinite thicknesses, you will need to use some kind of depth threshold to mask a reflection if it's intersection with the object is not valid. If you do use a depth threshold then you can (will?) end up getting artifacts like these:
+For me the most difficult artifact to understand and deal with when we implemented ssr is (by far) the implications of tracing a discreet depth buffer. Unless you can fully commit to the idea of tracing objects with infinite thicknesses, you will need to use some kind of depth threshold to mask a reflection if it's intersection with the geometry is not valid. If you do use a depth threshold then you can (will?) end up getting artifacts like these:
 
-https://youtu.be/ZftaDG2q3D0
+[https://youtu.be/ZftaDG2q3D0](https://youtu.be/ZftaDG2q3D0)
+![](https://github.com/greje656/Questions/blob/master/images/ssr25.jpg)
 
 The problem _as far as I understand it_, is that rays can osciliate from hitting the surface back and forth when it's tracing rays that are almost parallelel to the extruded depth cells. It is essentially an alliasing problem caused by the low quality of the depth signal:
 ![](https://github.com/greje656/Questions/blob/master/images/ssr24.jpg)
