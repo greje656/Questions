@@ -130,6 +130,8 @@ Finally it's worth pointing out that hiz tracing is a very "all or nothing" way 
 
 This is something that can be very distracting and made much worst when dealing with a jittered depth buffer when combined with taa. This side-effect should be considered carefully when choosing a tracing solution for ssr.
 
+## Code
+
 ~~~
 float2 cell(float2 ray, float2 cell_count, uint camera) {
 	return floor(ray.xy * cell_count);
