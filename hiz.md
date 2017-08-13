@@ -33,26 +33,22 @@ This looked better. However it didn't address all of the tracing artifacts we we
 While this works in most cases there is one scenario which results in a ray that will not cross over into the next hiz cell (see diagram bellow). When this happens the ray wastes the rest of it's allocated trace iterations intersecting the same cell without ever crossing it. To address this we changed the proposed method slightly. Instead of offseting the bounding planes, we choose the appropriate offset to add depending on which plane was intersected (horizontal or vertical). This ensures that we will always cross a cell when tracing:
 
 ~~~~
-float3 intersect_cell_boundary(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
-  float2 cell_size = 1.0 / cell_count;
-  float2 planes = cell_id/cell_count + cell_size * cross_step + cross_offset;
-  float2 solutions = (planes - pos.xy)/dir.xy;
+float2 cell_size = 1.0 / cell_count;
+float2 planes = cell_id/cell_count + cell_size * cross_step + cross_offset;
+float2 solutions = (planes - pos.xy)/dir.xy;
 
-  float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
-  return intersection_pos;
-}
+float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
+return intersection_pos;
 ~~~~
 
 ~~~~
-float3 intersect_cell_boundary_fixed(float3 pos, float3 dir, float2 cell_id, float2 cell_count, float2 cross_step, float2 cross_offset) {
-  float2 cell_size = 1.0 / cell_count;
-  float2 planes = cell_id/cell_count + cell_size * cross_step;
-  float2 solutions = (planes - pos)/dir.xy;
+float2 cell_size = 1.0 / cell_count;
+float2 planes = cell_id/cell_count + cell_size * cross_step;
+float2 solutions = (planes - pos)/dir.xy;
 
-  float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
-  intersection_pos.xy += (solutions.x < solutions.y) ? float2(cross_offset.x, 0.0) : float2(0.0, cross_offset.y);
-  return intersection_pos;
-}
+float3 intersection_pos = pos + dir * min(solutions.x, solutions.y);
+intersection_pos.xy += (solutions.x < solutions.y) ? float2(cross_offset.x, 0.0) : float2(0.0, cross_offset.y);
+return intersection_pos;
 ~~~~
 
 ![](https://github.com/greje656/Questions/blob/master/images/ssr19.jpg)
