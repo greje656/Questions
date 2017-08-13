@@ -112,7 +112,7 @@ Number of iterations to complete the trace (black=0, red=128):
 
 ## The Problem of Tracing a Discrete Depth Buffer
 
-For me the most difficult artifact to understand and deal with implementing ssr is (by far) the implications of tracing a discreet depth buffer. Unless you can fully commit to the idea of tracing objects with infinite thicknesses, you will need to use some kind of depth threshold to mask a reflection if it's intersection with the geometry is not valid. If you do use a depth threshold then you can (will?) end up getting artifacts like these:
+For me the most difficult artifact to understand and deal with when implementing ssr is (by far) the implications of tracing a discreet depth buffer. Unless you can fully commit to the idea of tracing objects with infinite thicknesses, you will need to use some kind of depth threshold to mask a reflection if it's intersection with the geometry is not valid. If you do use a depth threshold then you can (will?) end up getting artifacts like these:
 
 [https://youtu.be/ZftaDG2q3D0](https://youtu.be/ZftaDG2q3D0)
 ![](https://github.com/greje656/Questions/blob/master/images/ssr25.jpg)
