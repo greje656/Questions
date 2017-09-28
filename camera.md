@@ -33,7 +33,7 @@ The second property we were really keen on mapping is the field of view of the c
 
 Intuitively we though that the change in the FOV was caused by a change in the effective focal length of the lens. Adjusting the focus usually shifts a group of lens up and down the optical axis of a lens and our understanding/guess was that this shift increased and decreased the effective focal length of the lens. Using this idea we we're able to simulate the effect changing the focus point has on the FOV of a camera:
 
-[](https://www.youtube.com/watch?v=KDwUi-vYYMQ&feature=youtu.be)
+[https://www.youtube.com/watch?v=KDwUi-vYYMQ](https://www.youtube.com/watch?v=KDwUi-vYYMQ&feature=youtu.be)
 
 ~~~
 local function compute_fov(focal_length, film_back_height, focus)
