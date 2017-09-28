@@ -28,7 +28,7 @@ local function compute_ev(aperture, shutter_time, iso)
 end
 ~~~
 
-The second property we were really interested on mapping is the field of view of the camera. Usually the horizontal FOV is calculated as _2 x atan(h/2f)_ where _h_ is the camera sensor's width and _f_ is the current focal length of the lens. This by itself gives a good approximation of the FOV of a lens, but as was pointed out by the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=50m12s), the focus distance of the lens should also be considered when calculating the FOV from the camera properties.
+The second property we were really interested in mapping is the field of view of the camera. Usually the horizontal FOV is calculated as _2 x atan(h/2f)_ where _h_ is the camera sensor's width and _f_ is the current focal length of the lens. This by itself gives a good approximation of the FOV of a lens, but as was pointed out by the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=50m12s), the focus distance of the lens should also be considered when calculating the FOV from the camera properties.
 
 Intuitively we though that the change in the FOV was caused by a change in the effective focal length of the lens. Adjusting the focus usually shifts a group of lenses up and down the optical axis of a camera lens. Our best guess was that this shift would increase or decrease the effective focal length of the camera lens. Using this idea we we're able to simulate the effect that changing the focus point has on the FOV of a camera:
 
