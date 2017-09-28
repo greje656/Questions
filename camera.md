@@ -2,21 +2,24 @@
 
 This is a quick blog to share some of the progress we made lately with Physical Cameras in Stingray. Our goal of implementing a solid physically based pipeline has always been split in three phases. First we validated our standard material. We then added physical lights. And now we are wrapping it up with a physical camera.
 
-We define a physical camera as an entity controlled by the same parameters a real world camera would use. These parameters are split into two groups which corresponds to the two main parts of a camera. The camera _body_ is defined by it's sensor size, iso sensitivity, and a range of shutter speeds. The camera _lens_ is defined by it's focal length, focus range, and range of aperture diameters. Setting all of these parameters should expose the inconming light very much the same way a real world camera would.
+We define a physical camera as an entity controlled by the same parameters a real world camera would use. These parameters are split into two groups which corresponds to the two main parts of a camera. The camera _body_ is defined by it's sensor size, iso sensitivity, and a range of available shutter speeds. The camera _lens_ is defined by it's focal length, focus range, and range of aperture diameters. Setting all of these parameters should expose the inconming light the same way a real world camera would.
 
-Just like our physical light, our camera is expressed as an entity with a bunch of components. The main two components being the Camera Body and the Camera Lens. All other component values are driven by these first two. The mapping of these values is achieved through a script component which also belongs to the camera entity. Here is a climpse of what the Physical Camera entity looks like:
+### Stingray Representation ###
+Just like our physical light, our camera is expressed as an entity with a bunch of components. The main two components being the Camera Body and the Camera Lens. All other component values are driven by these first two. The mapping of these values is done through a script component which also belongs to the camera entity. Here is a glimpse of what the Physical Camera entity may look like (wip):
 
 ![](images/cameras/res6.jpg)
 
-So while there are a lot of components that belongs to a camera, the user is expected to interact only with the transform component, and the body and lens component. The value of all the other components are derived from these main three components. 
+So while there are a lot of components that belongs to a camera, the user is expected to interact only with the body and lens component. The value of all the other components are derived from these main two through the "Properties Mapper" script component. 
 
 ### Post Effects ###
-Most of our post effects pipeline is didicated to simulate some sort of camera/lens artifact (DOF, motion blur, film grain, vignetting, bloom, chromatic aberation, ect). One thing we wanted was the ability to override the post processes defined in our global Shading Environments per camera. We also wanted to let users easily opt out of the physically based mapping that occured between a camera and it's corresponding post-effect. For example a physical camera will always generate a physically based circle of confusion for the depth of field effect, but a user might be frustrated by the physical limitations imposed by a physically correct dof effect and choose to opt out. In our current setup, the only shading environment component a camera is allowed to override are the ones added to the current camera. For example, to optout of having a phsyically driven DOF effect, all that is required is for the user to delete the Depth Of Field component from the camera entity.
+A lot of our post effects are didicated to simulate some sort of camera/lens artifact (DOF, motion blur, film grain, vignetting, bloom, chromatic aberation, ect). One thing we wanted was the ability for physical cameras to override some of the post processes defined in our global shading environments. We also wanted to let users easily opt out of the physically based mapping that occured between a camera and it's corresponding post-effect. For example a physical camera will generate a accurate circle of confusion for the depth of field effect, but a user might be frustrated by the limitations imposed by a physically correct dof effect. In this case a user can optout by simply deleting the "Depth Of Field" component from the camera entity.
 
-It's nice to see the expressiveness of the Stingray entity system grow and see how it enables us to build these complex entities without the need to change much of the engine.
+It's nice to see how the expressiveness of the Stingray entity system is shaping up and how it enables us to build these complex entities without the need to change much of the engine.
 
-### Mappings ###
-The most important property we wanted to map was the exposure value. We wanted the f-stop, shutter speed, and ISO values to map to an exposure value which would simulate how a real camera sensor would react to the incoming light. Sebastian Hillaires PBS document covers this extensivelly in the camera section:
+### Properties Mapper ###
+All of the mapping occurs in the properties mapper component which is basically just a lua script that gets executed whenever any of the entity properties are edited.
+
+The most important property we wanted to map was the exposure value. We wanted the f-stop, shutter speed, and ISO values to map to an exposure value which would simulate how a real camera sensor reacts to incoming light. This is a topic that was well covered by Sebastien Lagarde and Charles de Rousiers in their awesome [Moving Frostbite to Physically Based Rendering](https://seblagarde.files.wordpress.com/2015/07/course_notes_moving_frostbite_to_pbr_v32.pdf) document. The mapping basically boils down to:
 
 ~~~
 local function compute_ev(aperture, shutter_time, iso)
