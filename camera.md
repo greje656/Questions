@@ -11,7 +11,7 @@ Just like our physical light, our camera is expressed as an entity with a bunch 
 So while there are a lot of components that belongs to a physical camera, the user is expected to interact mainly with the body and the lens components.
 
 ### Post Effects ###
-A lot of our post effects are didicated to simulate some sort of camera/lens artifact (DOF, motion blur, film grain, vignetting, bloom, chromatic aberation, ect). One thing we wanted was the ability for physical cameras to override the post processes defined in our global shading environments. We also wanted to let users easily opt out of the physically based mapping that occurred between a camera and it's corresponding post-effect. For example a physical camera will generate an accurate circle of confusion for the depth of field effect, but a user might be frustrated by the limitations imposed by a physically correct dof effect. In this case a user can opt out by simply deleting the "Depth Of Field" component from the camera entity.
+A lot of our post effects are dedicated to simulate some sort of camera/lens artifact (DOF, motion blur, film grain, vignetting, bloom, chromatic aberation, ect). One thing we wanted was the ability for physical cameras to override the post processes defined in our global shading environments. We also wanted to let users easily opt out of the physically based mapping that occurred between a camera and it's corresponding post-effect. For example a physical camera will generate an accurate circle of confusion for the depth of field effect, but a user might be frustrated by the limitations imposed by a physically correct dof effect. In this case a user can opt out by simply deleting the "Depth Of Field" component from the camera entity.
 
 It's nice to see how the expressiveness of the Stingray entity system is shaping up and how it enables us to build these complex entities without the need to change much of the engine.
 
@@ -71,4 +71,4 @@ With this fix in place we started getting more encouraging results:
 
 ![](images/cameras/res2.jpg)
 
-There is lots left to do but this feels like a very good start to our physically based cameras. 
+There is lots left to do but this feels like a very good start to our physically based cameras.
