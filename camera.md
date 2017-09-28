@@ -30,7 +30,7 @@ end
 
 The second property we were really interested on mapping is the field of view of the camera. Usually the horizontal FOV is calculated as _2 x atan(h/2f)_ where _h_ is the camera sensor's width and _f_ is the current focal length of the lens. This by itself gives a good approximation of the FOV of a lens, but as was pointed out by the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=50m12s), the focus distance of the lens should also be considered when calculating the FOV from the camera properties.
 
-Intuitively we though that the change in the FOV was caused by a change in the effective focal length of the lens. Adjusting the focus usually shifts a group of lenses up and down the optical axis and our understanding/guess was that this shift increased and decreased the effective focal length of the lens. Using this idea we we're able to simulate the effect changing the focus point has on the FOV of a camera:
+Intuitively we though that the change in the FOV was caused by a change in the effective focal length of the lens. Adjusting the focus usually shifts a group of lenses up and down the optical axis of a camera lens. Our best guess was that this shift would increase or decrease the effective focal length of the camera lens. Using this idea we we're able to simulate the effect that changing the focus point has on the FOV of a camera:
 
 [https://www.youtube.com/watch?v=KDwUi-vYYMQ](https://www.youtube.com/watch?v=KDwUi-vYYMQ&feature=youtu.be)
 
@@ -43,12 +43,12 @@ end
 ~~~
 
 
-While this gave us plausible results in some cases it didn't exactly map accurately with the behavior of a real world lens for some lens setting. This is an area we would like to improve on (we will need to think about the optics of the lens a little bit more).
+While this gave us plausible results in some cases, it does not map accurately to a real world camera with certain lens settings. This area of lens optics is one we would like to explore more in the future. 
 
-In the future we will continue to map more and more of the camera's properties to their corresponding post-effects. More on this in a follow up blog.
+In the future we will map more camera properties to their corresponding post-effects. More on this in a follow up blog.
 
 ### Validating Results ###
-To validate our mappings we designed a small controlled environment room which we then re-created in stingray. This would allow us to compare renders and actual photographs. It's really a "Poor Programer" equivalent of the cool "Conference Room" setup that was presented by Hideo Kojima in the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=20m22s)
+To validate our mappings we designed a small, controlled environment room that we re-created in stingray. This idea was inspired by the "Conference Room" setup that was presented by Hideo Kojima in the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=20m22s). We used our simplified, environment room to compare our rendered results with real world photographs.
 
 Controlled Environment:
 ![](images/cameras/res4.jpg)
@@ -61,10 +61,10 @@ Since there is no convenient way to adjust the white balancing in Stingray, we d
 White balancing our photographs:
 ![](images/cameras/res6.gif)
 
-Our very first comparison we're disappointing::
+Our very first comparison we're disapointing:
 ![](images/cameras/res9.jpg)
 
-We tracked down the difference in brightness to a problem with how we expressed our lights intensity. We discovered that we made the mistake of using the specified lumen value of our lights as it's light intensity. This isnt right. The total luminous flux is expressed in lumens, but the luminous intensity (what the material shader is interested in) is actually the luminous flux per solid angle. So while we let the users enter the "intensity" of lights in lumens, we need to map this value to luminous intensity. The mapping is done as _lumens/2π(1-cos(½α))_ where  _α_ is the apex angle of the light. Lots of detailed can be found [here](https://www.compuphase.com/electronics/candela_lumen.htm). This works well for pointlights and spotlights. In the future our directional lights will be assumed to be Suns or Moons and will be expressed in lux perhaps with a corresponding disk size.
+We tracked down the difference in brightness to a problem with how we expressed our light intensity. We discovered that we made the mistake of using the specified lumen value of our lights as it's light intensity. The total luminous flux is expressed in lumens, but the luminous intensity (what the material shader is interested in) is actually the luminous flux per solid angle. So while we let the users enter the "intensity" of lights in lumens, we need to map this value to luminous intensity. The mapping is done as _lumens/2π(1-cos(½α))_ where  _α_ is the apex angle of the light. Lots of details can be found [here](https://www.compuphase.com/electronics/candela_lumen.htm). This works well for point lights and spot lights. In the future our directional lights will be assumed to be the sun or moon and will be expressed in lux, perhaps with a corresponding disk size.
 
 With this fix in place we started getting more encouraging results:
 ![](images/cameras/res1.jpg)
