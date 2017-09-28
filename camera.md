@@ -6,7 +6,7 @@ We define a physical camera as an entity controlled by the same parameters a rea
 
 Just like our physical light, our camera is expressed as an entity with a bunch of components. The main two components being the Camera Body and the Camera Lens. All other component values are driven by these first two. The mapping of these values is achieved through a script component which also belongs to the camera entity. Here is a climpse of what the Physical Camera entity looks like:
 
-![](images/cameras/res1.jpg)
+![](images/cameras/res5.jpg)
 
 So while there are a lot of components that belongs to a camera, the user is expected to interact only with the transform component, and the body and lens component. The value of all the other components are derived from these main three components. 
 
