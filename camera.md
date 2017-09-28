@@ -6,7 +6,7 @@ We define a physical camera as an entity controlled by the same parameters a rea
 ### Stingray Representation ###
 Just like our physical light, our camera is expressed as an entity with a bunch of components. The main two components being the Camera Body and the Camera Lens. We then have a transform component and a camera component which together represents the view projection matrix of the camera. After that we have a list of shading environment components which we deem relevant to be controlled by a physical camera (all post effects relevent to a camera). The state of these shading environment components is controled through a script component called the "Physical Camera Properties Mapper" (more on this later). Here is a glimpse of what the Physical Camera entity may look like (wip):
 
-![](images/cameras/res6.jpg)
+![](images/cameras/res11.jpg)
 
 So while there are a lot of components that belongs to a physical camera, the user is expected to interact mainly with the body and the lens components.
 
