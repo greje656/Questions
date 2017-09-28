@@ -1,5 +1,4 @@
 # Physical Cameras in Stingray (Part 1) #
-
 This is a quick blog to share some of the progress we made lately with Physical Cameras in Stingray. Our goal of implementing a solid physically based pipeline has always been split in three phases. First we validated our standard material. We then added physical lights. And now we are wrapping it up with a physical camera.
 
 We define a physical camera as an entity controlled by the same parameters a real world camera would use. These parameters are split into two groups which corresponds to the two main parts of a camera. The camera _body_ is defined by it's sensor size, iso sensitivity, and a range of available shutter speeds. The camera _lens_ is defined by it's focal length, focus range, and range of aperture diameters. Setting all of these parameters should expose the inconming light the same way a real world camera would.
@@ -49,7 +48,6 @@ While this gave us plausible results in some cases it didn't exactly map accurat
 In the future we will continue to map more and more of the camera's properties to their corresponding post-effects. More on this in a follow up blog.
 
 ### Validating Results ###
-
 To validate our mappings we designed a small controlled environment room which we then re-created in stingray. This would allow us to compare renders and actual photographs. It's really a "poor programer" equivalent of the cool "Conference Room" setup that was presented by Hideo Kojima in the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=20m22s).
 
 Here's a checklist of what has proven useful:
