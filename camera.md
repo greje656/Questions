@@ -1,7 +1,7 @@
 # Physical Cameras in Stingray (Part 1) #
-This is a quick blog to share some of the progress we made lately with Physical Cameras in Stingray. Our goal of implementing a solid physically based pipeline has always been split in three phases. First we validated our standard material. We then added physical lights. And now we are wrapping it up with a physical camera.
+This is a quick blog to share some of the progress we made lately with Physical Cameras in Stingray. Our goal of implementing a solid physically based pipeline has always been split in three phases. First we [validated our standard material](http://bitsquid.blogspot.ca/2017/07/validating-materials-and-lights-in.html). We then added physical lights. And now we are wrapping it up with a physical camera.
 
-We define a physical camera as an entity controlled by the same parameters a real world camera would use. These parameters are split into two groups which corresponds to the two main parts of a camera. The camera _body_ is defined by it's sensor size, iso sensitivity, and a range of available shutter speeds. The camera _lens_ is defined by it's focal length, focus range, and range of aperture diameters. Setting all of these parameters should expose the inconming light the same way a real world camera would.
+We define a physical camera as an entity controlled by the same parameters a real world camera would use. These parameters are split into two groups which corresponds to the two main parts of a camera. The camera _body_ is defined by it's sensor size, iso sensitivity, and a range of available shutter speeds. The camera _lens_ is defined by it's focal length, focus range, and range of aperture diameters. Setting all of these parameters should expose the incoming light the same way a real world camera would.
 
 ### Stingray Representation ###
 Just like our physical light, our camera is expressed as an entity with a bunch of components. The main two components being the Camera Body and the Camera Lens. All other component values are driven by these first two. The mapping of these values is done through a script component which also belongs to the camera entity. Here is a glimpse of what the Physical Camera entity may look like (wip):
@@ -11,7 +11,7 @@ Just like our physical light, our camera is expressed as an entity with a bunch 
 So while there are a lot of components that belongs to a camera, the user is expected to interact only with the body and lens component. The value of all the other components are derived from these main two through the "Properties Mapper" script component. 
 
 ### Post Effects ###
-A lot of our post effects are didicated to simulate some sort of camera/lens artifact (DOF, motion blur, film grain, vignetting, bloom, chromatic aberation, ect). One thing we wanted was the ability for physical cameras to override some of the post processes defined in our global shading environments. We also wanted to let users easily opt out of the physically based mapping that occured between a camera and it's corresponding post-effect. For example a physical camera will generate a accurate circle of confusion for the depth of field effect, but a user might be frustrated by the limitations imposed by a physically correct dof effect. In this case a user can optout by simply deleting the "Depth Of Field" component from the camera entity.
+A lot of our post effects are didicated to simulate some sort of camera/lens artifact (DOF, motion blur, film grain, vignetting, bloom, chromatic aberation, ect). One thing we wanted was the ability for physical cameras to override some of the post processes defined in our global shading environments. We also wanted to let users easily opt out of the physically based mapping that occurred between a camera and it's corresponding post-effect. For example a physical camera will generate a accurate circle of confusion for the depth of field effect, but a user might be frustrated by the limitations imposed by a physically correct dof effect. In this case a user can optout by simply deleting the "Depth Of Field" component from the camera entity.
 
 It's nice to see how the expressiveness of the Stingray entity system is shaping up and how it enables us to build these complex entities without the need to change much of the engine.
 
@@ -43,7 +43,7 @@ end
 ~~~
 
 
-While this gave us plausible results in some cases it didn't exactly map accuratly with the behavior of a real world lens for some lens setting. This is an area we would like to improve on (we will need to think about the optics of the lens a little bit more).
+While this gave us plausible results in some cases it didn't exactly map accurately with the behavior of a real world lens for some lens setting. This is an area we would like to improve on (we will need to think about the optics of the lens a little bit more).
 
 In the future we will continue to map more and more of the camera's properties to their corresponding post-effects. More on this in a follow up blog.
 
@@ -61,7 +61,7 @@ Since there is no convenient way to adjust the white balancing in Stingray, we d
 White balancing our photographs:
 ![](images/cameras/res6.gif)
 
-Our very first comparaison we're disapointing:
+Our very first comparison we're disappointing::
 ![](images/cameras/res9.jpg)
 
 We tracked down the difference in brightness to a problem with how we expressed our lights intensity. We discovered that we made the mistake of using the specified lumen value of our lights as it's light intensity. This isnt right. The total luminous flux is expressed in lumens, but the luminous intensity (what the material shader is interested in) is actually the luminous flux per solid angle. So while we let the users enter the "intensity" of lights in lumens, we need to map this value to luminous intensity. The mapping is done as _lumens/2π(1-cos(½α))_ where  _α_ is the apex angle of the light. Lots of detailed can be found [here](https://www.compuphase.com/electronics/candela_lumen.htm). This works well for pointlights and spotlights. In the future our directional lights will be assumed to be Suns or Moons and will be expressed in lux perhaps with a corresponding disk size.
