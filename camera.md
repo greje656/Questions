@@ -56,7 +56,7 @@ Controlled Environment:
 Stingray Equivalent:
 ![](images/cameras/res3.jpg)
 
-Since there is no convenient way to adjust the white balancing in Stingray, we decided to white balance our camera data and use a pure white light in our Stingray scene. We also decided to compare the photos and renders in linear space hence minimising the source of potential error.
+Since there is no convenient way to adjust the white balancing in Stingray, we decided to white balance our camera data and use a pure white light in our Stingray scene. We also decided to compare the photos and renders in linear space in the hope to minimize the source of potential error.
 
 White balancing our photographs:
 ![](images/cameras/res6.gif)
