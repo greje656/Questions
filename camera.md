@@ -58,6 +58,7 @@ Controlled Environment:
 - Tape measure
 - Light bulb (with known Lumens and Color Temperature values)
 - Light Meter
+
 ![](images/cameras/res4.jpg)
 
 Stingray Equivalent:
