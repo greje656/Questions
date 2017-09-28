@@ -48,22 +48,21 @@ While this gave us plausible results in some cases it didn't exactly map accurat
 In the future we will continue to map more and more of the camera's properties to their corresponding post-effects. More on this in a follow up blog.
 
 ### Validating Results ###
-To validate our mappings we designed a small controlled environment room which we then re-created in stingray. This would allow us to compare renders and actual photographs. It's really a "poor programer" equivalent of the cool "Conference Room" setup that was presented by Hideo Kojima in the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=20m22s)
+To validate our mappings we designed a small controlled environment room which we then re-created in stingray. This would allow us to compare renders and actual photographs. It's really a "Poor Programer" equivalent of the cool "Conference Room" setup that was presented by Hideo Kojima in the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=20m22s)
 
 Controlled Environment:
-![](images/cameras/res4.jpg)
-
-Stingray Equivalent:
-![](images/cameras/res3.jpg)
-
-Here's a checklist of what has proven useful:
-- Access to a dark room (ideally with farily dark diffuse walls)
+- Dark Room (ideally with fairly dark diffuse walls)
 - Camera
 - Tripod
 - ColorChecker
 - Tape measure
 - Light bulb (with known Lumens and Color Temperature values)
 - Light Meter
+![](images/cameras/res4.jpg)
+
+Stingray Equivalent:
+![](images/cameras/res3.jpg)
+
 
 Our very first comparaison we're disapointing:
 
