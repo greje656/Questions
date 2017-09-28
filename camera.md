@@ -19,7 +19,7 @@ It's nice to see how the expressiveness of the Stingray entity system is shaping
 ### Properties Mapper ###
 All of the mapping occurs in the properties mapper component which is basically just a lua script that gets executed whenever any of the entity properties are edited.
 
-The most important property we wanted to map was the exposure value. We wanted the f-stop, shutter speed, and ISO values to map to an exposure value which would simulate how a real camera sensor reacts to incoming light. This is a topic that was well covered by Sebastien Lagarde and Charles de Rousiers in their awesome [Moving Frostbite to Physically Based Rendering](https://seblagarde.files.wordpress.com/2015/07/course_notes_moving_frostbite_to_pbr_v32.pdf) document. The mapping basically boils down to:
+The most important property we wanted to map was the exposure value. We wanted the f-stop, shutter speed, and ISO values to map to an exposure value which would simulate how a real camera sensor reacts to incoming light. Lucky for is, this is a topic that was very well covered by Sebastien Lagarde and Charles de Rousiers in their awesome awesome awesome [Moving Frostbite to Physically Based Rendering](https://seblagarde.files.wordpress.com/2015/07/course_notes_moving_frostbite_to_pbr_v32.pdf) document. The mapping basically boils down to:
 
 ~~~
 local function compute_ev(aperture, shutter_time, iso)
@@ -29,9 +29,11 @@ local function compute_ev(aperture, shutter_time, iso)
 end
 ~~~
 
-The second property we were really keen on mapping is the field of view of the camera. Usually the horizontal FOV is calculated as 2 x atan(h/2f) where h is the camera sensor's with and f is the current focal length of the lens. The focus distance of the lens should also be considered when mapping the FOV (as it was pointed out in the GDC 2013 Panel - MGS5 & Fox Engine presentation https://youtu.be/FQMbxzTUuSg?t=50m12s).
+The second property we were really keen on mapping is the field of view of the camera. Usually the horizontal FOV is calculated as _2 x atan(h/2f)_ where _h_ is the camera sensor's with and _f_ is the current focal length of the lens. This by itself gives a good approximation of the FOV of a lens, but as was pointed out by the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=50m12s), the focus distance of the lens should also be considered when mapping calculating FOV from the camera properties.
 
-Intuitively I though that the change in FOV was caused by a change in the effective focal length of the lens. Adjusting the focus usually shifts a group of lens components up and down the optical axis and my understanding was that this shift would increase and decrease the effective focal length of the lens. But while this gives plausible results in some cases it didn't yield a very accurate shift in the FOV. We are using this idea for now but it's an area where we could improve (will need to think about the optics of the lens a little bit more)
+Intuitively we though that the change in the FOV was caused by a change in the effective focal length of the lens. Adjusting the focus usually shifts a group of lens up and down the optical axis of a lens and our understanding/guess was that this shift increased and decreased the effective focal length of the lens. Using this idea we we're able to simulate the effect changing the focus point has on the FOV of a camera:
+
+[](https://www.youtube.com/watch?v=KDwUi-vYYMQ&feature=youtu.be)
 
 ~~~
 local function compute_fov(focal_length, film_back_height, focus)
@@ -41,7 +43,8 @@ local function compute_fov(focal_length, film_back_height, focus)
 end
 ~~~
 
-Link to youtube video of lens
+
+While this gave us plausible results in some cases it didn't exactly map accuratly with the behavior of a real world lens for some lens setting. This is an area we would like to improve on (we will need to think about the optics of the lens a little bit more).
 
 Similarly we will continue to map the physical properties of the camera to different post effects those key property succesfully mapped we started tackling other interesting camera arrifacts like dof, noise, motionblur, bloom.
 
