@@ -62,6 +62,7 @@ White balancing our photographs:
 ![](images/cameras/res6.gif)
 
 Our very first comparaison we're disapointing:
+![](images/cameras/res7.jpg)
 
 Findings:
 One thing we observed early on is that we had to scale our exposure by a fudge factor to get a similar exposure.
