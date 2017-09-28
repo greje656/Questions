@@ -6,11 +6,11 @@ We define a physical camera as an entity controlled by the same parameters a rea
 
 Just like our physical light, our camera is expressed as an entity with a bunch of components. The main two components being the Camera Body and the Camera Lens. All other component values are driven by these first two. The mapping of these values is achieved through a script component which also belongs to the camera entity. Here is a climpse of what the Physical Camera entity looks like:
 
-![](images/cameras/res5.jpg)
+![](images/cameras/res6.jpg)
 
 So while there are a lot of components that belongs to a camera, the user is expected to interact only with the transform component, and the body and lens component. The value of all the other components are derived from these main three components. 
 
-Post Effects
+### Post Effects ###
 Most of our post effects pipeline is didicated to simulate some sort of camera/lens artifact (DOF, motion blur, film grain, vignetting, bloom, chromatic aberation, ect). One thing we wanted was the ability to override the post processes defined in our global Shading Environments per camera. We also wanted to let users easily opt out of the physically based mapping that occured between a camera and it's corresponding post-effect. For example a physical camera will always generate a physically based circle of confusion for the depth of field effect, but a user might be frustrated by the physical limitations imposed by a physically correct dof effect and choose to opt out. In our current setup, the only shading environment component a camera is allowed to override are the ones added to the current camera. For example, to optout of having a phsyically driven DOF effect, all that is required is for the user to delete the Depth Of Field component from the camera entity.
 
 It's nice to see the expressiveness of the Stingray entity system grow and see how it enables us to build these complex entities without the need to change much of the engine.
