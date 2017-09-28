@@ -43,7 +43,7 @@ end
 ~~~
 
 
-While this gave us plausible results in some cases, it does not map accurately to a real world camera with certain lens settings. This area of lens optics is one we would like to explore more in the future. 
+While this gave us plausible results in some cases, it does not map accurately to a real world camera with certain lens settings. For example we can choose a focal length offset that gives good FOV mapping for a zoom lens set to 24mm but incorrect FOV results when it's set to 70mm (see [video](https://www.youtube.com/watch?v=KDwUi-vYYMQ&feature=youtu.be) above). This area of lens optics is one we would like to explore more in the future. 
 
 In the future we will map more camera properties to their corresponding post-effects. More on this in a follow up blog.
 
