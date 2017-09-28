@@ -46,10 +46,11 @@ end
 
 While this gave us plausible results in some cases it didn't exactly map accuratly with the behavior of a real world lens for some lens setting. This is an area we would like to improve on (we will need to think about the optics of the lens a little bit more).
 
-Similarly we will continue to map the physical properties of the camera to different post effects those key property succesfully mapped we started tackling other interesting camera arrifacts like dof, noise, motionblur, bloom.
+In the future we will continue to map more and more of the camera's properties to their corresponding post-effects. More on this in a follow up blog.
 
-Validation:
-To validate our mappings we built a small controlled environment room which we the re-created in stingray so that we could compare renders and actual photographs. It's the "poor programer's art" equivalent of the awesome "Conference Room" setup presented by Hideo Kojima in the MGS5 & Fox Engine presentation (https://youtu.be/FQMbxzTUuSg?t=20m22s).
+### Validating Results ###
+
+To validate our mappings we designed a small controlled environment room which we then re-created in stingray. This would allow us to compare renders and actual photographs. It's really a "poor programer" equivalent of the cool "Conference Room" setup that was presented by Hideo Kojima in the [MGS5 & Fox Engine presentation](https://youtu.be/FQMbxzTUuSg?t=20m22s).
 
 Here's a checklist of what has proven useful:
 - Access to a dark room (ideally with farily dark diffuse walls)
@@ -60,8 +61,9 @@ Here's a checklist of what has proven useful:
 - Light bulb (with known Lumens and Color Temperature values)
 - Light Meter
 
-Photo of setup
-Photo of setup in Stingray
+![](images/cameras/res4.jpg)
+
+![](images/cameras/res3.jpg)
 
 Our very first comparaison we're disapointing:
 
