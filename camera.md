@@ -70,3 +70,5 @@ With this fix in place we started getting more encouraging results:
 ![](images/cameras/res1.jpg)
 
 ![](images/cameras/res2.jpg)
+
+There is lots left to do but this feels like a very good start to our physically based cameras. 
