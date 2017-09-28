@@ -62,7 +62,7 @@ White balancing our photographs:
 ![](images/cameras/res6.gif)
 
 Our very first comparison we're disapointing:
-![](images/cameras/res9.jpg)
+![](images/cameras/res10.jpg)
 
 We tracked down the difference in brightness to a problem with how we expressed our light intensity. We discovered that we made the mistake of using the specified lumen value of our lights as it's light intensity. The total luminous flux is expressed in lumens, but the luminous intensity (what the material shader is interested in) is actually the luminous flux per solid angle. So while we let the users enter the "intensity" of lights in lumens, we need to map this value to luminous intensity. The mapping is done as _lumens/2π(1-cos(½α))_ where  _α_ is the apex angle of the light. Lots of details can be found [here](https://www.compuphase.com/electronics/candela_lumen.htm). This works well for point lights and spot lights. In the future our directional lights will be assumed to be the sun or moon and will be expressed in lux, perhaps with a corresponding disk size.
 
