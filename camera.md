@@ -64,9 +64,9 @@ White balancing our photographs:
 Our very first comparaison we're disapointing:
 ![](images/cameras/res9.jpg)
 
-Findings:
-One thing we observed early on is that we had to scale our exposure by a fudge factor to get a similar exposure.
+We tracked down the difference in intensity to a problem with how we expressed our lights intensity. We discovered that we made the mistake of naively using the specified lumens value of a light as it's light intensity. This isnt right. The total luminous flux is expressed in lumens, but the luminous intensity (what the material shader is interested in) is actually the luminous flux per solid angle. So while we let the users enter the "intensity" of lights in lumens, we need to map this value to luminous intensity as _lumens/2π(1-cos(½α))_ where  _α_ is the apex angle. Lots of detailed can be found [here](https://www.compuphase.com/electronics/candela_lumen.htm). This works for pointlights and spotlights. Our directional lights will be assumed to be Suns or Moons and will be expressed in lux.
 
-We eventually tracked down the exposure difference to a problem with how we express our lights intensity. Originally we had light intensity = value in lumens. This isnt right. The total luminoud flux is expressed in lumens, but the luminous intensity the.material shader is interested in is actually thr luminous flux per solid.angle. So while we let the users enter the intensity of lights in lumens, we need to map thr luminous intensity as blahblahbalh. This works for pointlights and spotlights. Directional lights will be assumed to be suns or moons and will be expressed in lux. Ies profiles will have to be considered (not done at the time.of writting this).
+With this fix in place we started getting more encouraging results:
+![](images/cameras/res1.jpg)
 
-Now we are getting far more encouraging results!
+![](images/cameras/res2.jpg)
