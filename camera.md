@@ -1,5 +1,5 @@
 # Physical Cameras in Stingray (Part 1) #
-This is a quick blog to share some of the progress we made lately with Physical Cameras in Stingray. Our goal of implementing a solid physically based pipeline has always been split in three phases. First we [validated our standard material](http://bitsquid.blogspot.ca/2017/07/validating-materials-and-lights-in.html). We then added physical lights. And now we are wrapping it up with a physical camera.
+This is a quick blog to share some of the progress [Olivier Dionne](https://twitter.com/olivier_dionne) and I made lately with Physical Cameras in Stingray. Our goal of implementing a solid physically based pipeline has always been split in three phases. First we [validated our standard material](http://bitsquid.blogspot.ca/2017/07/validating-materials-and-lights-in.html). We then added physical lights. And now we are wrapping it up with a physical camera.
 
 We define a physical camera as an entity controlled by the same parameters a real world camera would use. These parameters are split into two groups which corresponds to the two main parts of a camera. The camera _body_ is defined by it's sensor size, iso sensitivity, and a range of available shutter speeds. The camera _lens_ is defined by it's focal length, focus range, and range of aperture diameters. Setting all of these parameters should expose the incoming light the same way a real world camera would.
 
@@ -71,4 +71,4 @@ With this fix in place we started getting more encouraging results:
 
 ![](images/cameras/res2.jpg)
 
-There is lots left to do but this feels like a very good start to our physically based cameras.
+There is lots left to do but this feels like a very good start to our physically based cameras. 
