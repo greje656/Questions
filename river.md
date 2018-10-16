@@ -7,7 +7,7 @@ I've always been interested in water in games. I played From Dust a lot when it 
 That was a very fun test and even without any lighting it was obvious that it was possible to build a system around this that was very intuitive and fun to use. One thing I tried early on was to combine the idea of wave particles and wave packets that we're presented by Stefan Jeschke during the Siggrapgh of 2017. While it was a cool experiement, using them prevents from using a valualbe optimization that plain wave particles offer so I ended up abandonning this effort ealy on and sticked to using wave particles:
 
 
-![](https://youtu.be/MIGhIPTaTDI)
+[![](http://img.youtube.com/vi/MIGhIPTaTDI/0.jpg)](http://www.youtube.com/watch?v=MIGhIPTaTDI)
 
 Once I had the lighting and modelling in a descent state, I wanted to tackle generating an interesting vector field which could drive the motion of these waves.
 
