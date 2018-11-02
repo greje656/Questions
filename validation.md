@@ -6,10 +6,10 @@ Stingray 1.9 is just around the corner and with it will come our new physical li
 
 Early on we were quite set on building a small controlled "light room" similar to what the [Fox Engine team presented at GDC](https://youtu.be/FQMbxzTUuSg?t=19m25s) as a validation process. But while this seemed like a fantastic way to confirm the entire pipeline is giving plausible results, it felt like identifying the source of discontinuities when comparing photographs vs renders might involve a lot of guess work. So we decided to delay the validation process through a controlled light room and started thinking about comparing our results with a high quality offline renderer. Since [SolidAngle](https://www.solidangle.com/) joined Autodesk last year and that we had access to an [Arnold](https://www.solidangle.com/arnold/) license server it seemed like a good candidate. Note that the Arnold SDK is extremely easy to use and can be [downloaded](https://www.solidangle.com/arnold/download) for free. If you don't have a license you still have access to all the features and the only limitation is that the rendered frames are watermarked. 
 
-We started writing a Stingray plugin that supported simple scene reflection into Arnold. We also implemented a custom Arnold Output Driver which allowed us to forward Arnold's linear data directly into the Stingray viewport where they would be gamma corrected and tonemapped by Stingray (minimizing as many potential sources of error).
+We started by writing a Stingray plugin that supports simple scene reflection into Arnold. We also implemented a custom Arnold Output Driver which allows us to forward the HDR result from Arnold back into Stingray. That way we can run various parts of the Stingray post processing pipe (e.g tone mapping) to minimize as many potential sources of errors as possible.
 
 ### Material parameters mapping ###
-The trickiest part of the process was to find an Arnold material which we could use to validate. When we started this work we used Arnold 4.3 and realized early that the Arnold's [Standard shader](https://support.solidangle.com/display/AFMUG/Standard) didn't map very well to the Metallic/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html) with the following mapping:
+The trickiest part of the process was to find an Arnold material which we could use to validate against. When we started this work we used Arnold 4.3 and realized early that the Arnold's [Standard shader](https://support.solidangle.com/display/AFMUG/Standard) didn't map very well to the Metallic/Roughness model. We had more luck using the [alSurface shader](http://www.anderslanglands.com/alshaders/alSurface.html) with the following mapping:
 
 ~~~~
 // "alSurface"
@@ -33,10 +33,10 @@ AiNodeSetRGB(surface_shader, "specular2Reflectivity", white.x, white.y, white.z)
 AiNodeSetRGB(surface_shader, "specular2EdgeTint", white.x, white.y, white.z);
 ~~~~
 
-Stingray VS Arnold: roughness = 0, metallicness = [0, 1]
+Stingray VS Arnold: roughness = 0, metallness = [0, 1]
 ![](images/res1.jpg)
 
-Stingray VS Arnold: metallicness = 1, roughness = [0, 1]
+Stingray VS Arnold: metallness = 1, roughness = [0, 1]
 ![](images/res3.jpg)
 
 Halfway through the validation process Arnold 5.0 got released and with it came the new [Standard Surface shader](https://support.solidangle.com/display/A5AFMUG/Standard+Surface) which is based on a Metalness/Roughness workflow. This allowed for a much simpler mapping:
@@ -71,7 +71,7 @@ Another source of differences and confusion came from the tint of the Fresnel te
 
 ![](images/metal3.jpg)
 
-It wasn't clear to me how Fresnel's law of reflection applied to metals. I asked on Twitter what peoples thoughts were on this and got this simple and elegant [claim](https://twitter.com/BrookeHodgman/status/884532159331028992) made by Brooke Hodgman: *"Metalic reflections are coloured because their Fresnel is wavelength varying, but Fresnel still goes to 1 at 90deg for every wavelength"*. This convinced me instantly that indeed the correct thing to do was to use an un-tinted Fresnel contribution regardless of the metallicness of the material. I later found this [graph](https://en.wikipedia.org/wiki/Reflectance) which also confirmed this: 
+It wasn't clear to me how Fresnel's law of reflection applied to metals. I asked on Twitter what peoples thoughts were on this and got this simple and elegant [claim](https://twitter.com/BrookeHodgman/status/884532159331028992) made by Brooke Hodgman: *"Metalic reflections are coloured because their Fresnel is wavelength varying, but Fresnel still goes to 1 at 90deg for every wavelength"*. This convinced me instantly that indeed the correct thing to do was to use an un-tinted Fresnel contribution regardless of the metallness of the material. I later found this [graph](https://en.wikipedia.org/wiki/Reflectance) which also confirmed this: 
 
 ![](images/reflectance.jpg)
 
